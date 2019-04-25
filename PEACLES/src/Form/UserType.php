@@ -6,13 +6,13 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\TextType;
-use Symfony\Component\Form\Extension\Core\PasswordType;
-use Symfony\Component\Form\Extension\Core\EmailType;
-use Symfony\Component\Form\Extension\Core\TextareaType;
-use Symfony\Component\Form\Extension\Core\DateType;
-use Symfony\Component\Form\Extension\Core\IntegerType;
-use Symfony\Component\Form\Extension\Core\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

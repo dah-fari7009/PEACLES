@@ -5,15 +5,15 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use App\Form\UserType;
 use App\Form\AuthType;
 use App\Entity\Auth;
+use App\Entity\User;
 
 class FormController extends AbstractController
 {
   /**
-   * @Route("/signin")
+   * @Route("/signin", name="signin")
    */
   public function signin(Request $request)
   {
@@ -35,23 +35,22 @@ class FormController extends AbstractController
     }
 
     /**
-     * @Route("/signup)
+     * @Route("/signup", name="signup")
      */
     public function signup(Request $request)
     {
         $user=new User();
         $user->setBday(new \DateTime('tomorrow'));
-        
+
         $form=$this->createForm(UserType::class,$user);
 
         $form->handleRequest($request);
-        if($form-<isSubmitted() && $form-<isValid()){
+        if($form->isSubmitted() && $form->isValid()){
             dump($user);
         }
         return $this->render('form/signup.html.twig',array(
-            'form' =>$form->createView();
-        ))
+            'form' =>$form->createView(),
+        ));
     }
-      
-  }
+
 }
