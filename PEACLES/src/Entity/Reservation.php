@@ -124,4 +124,16 @@ class Reservation
 
         return $this;
     }
+
+    public function getIdClient(): ?Client
+    {
+        return $this->id_client;
+    }
+
+    public function setIdClient(?Client $id_client): self
+    {
+        $this->id_client = $id_client;
+
+        return $this;
+    }
 }

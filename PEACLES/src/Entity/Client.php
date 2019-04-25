@@ -21,6 +21,11 @@ class Client extends User
      */
     private $reservations;
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->reservations = new ArrayCollection();
+    }
     
     public function getBday(): ?\DateTimeInterface
     {
