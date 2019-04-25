@@ -23,8 +23,8 @@ class UserType extends AbstractType
             ->add('pwd',PasswordType::class)
             ->add('bday',DateType::class)
             ->add('phone',IntegerType::class)
-            ->add('bio',TextareaType::class)
-            ->add('profile_pic',TextType::class)
+            //->add('bio',TextareaType::class)
+            //->add('profile_pic',TextType::class)
             ->add('save',SubmitType::class,['label' => 'Subscribe !'])
         ;
     }

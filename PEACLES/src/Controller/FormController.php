@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
+use App\Entity\User;
 use App\Form\UserType;
 use App\Form\AuthType;
 use App\Entity\Auth;
@@ -35,23 +35,26 @@ class FormController extends AbstractController
     }
 
     /**
-     * @Route("/signup)
+     * @Route("/signup")
      */
     public function signup(Request $request)
     {
         $user=new User();
+        $user.setName('');
+        $user.setEmail('');
+        $user.setPwd('');
         $user->setBday(new \DateTime('tomorrow'));
+        $user.setPhone('');
         
         $form=$this->createForm(UserType::class,$user);
 
         $form->handleRequest($request);
-        if($form-<isSubmitted() && $form-<isValid()){
+        if($form->isSubmitted() && $form->isValid()){
             dump($user);
         }
         return $this->render('form/signup.html.twig',array(
-            'form' =>$form->createView();
-        ))
+            'form' => $form->createView(),
+        ));
     }
       
   }
-}
