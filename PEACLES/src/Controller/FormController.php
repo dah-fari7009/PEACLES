@@ -21,6 +21,12 @@ class FormController extends AbstractController
 
       $form = $this->createForm(AuthType::class, $auth);
 
+      $form->handleRequest($request);
+
+      if ($form->isSubmitted() && $form->isValid()) {
+          dump($auth);
+      }
+
       return $this->render('form/login.html.twig', array(
           'form' => $form->createView(),
       ));

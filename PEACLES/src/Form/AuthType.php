@@ -16,7 +16,7 @@ class AuthType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
-            ->add('pwd', PasswordType::class)
+            ->add('pwd', PasswordType::class, ['label' => "Password"])
         ;
     }
 

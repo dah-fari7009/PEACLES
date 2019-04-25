@@ -4,9 +4,15 @@
 
 {% block body %}
 
-    <div>
-      {{ form(form) }}
-    </div>
+      <div class="row">
+            {{ form_start(form) }}
+
+                {{ form_row(form.email) }}
+                {{ form_row(form.pwd) }}
+
+                <button type="submit" class="btn btn-primary">Sign in</button>
+            {{ form_end(form) }}
+        </div>
 
 
 {% endblock body %}
