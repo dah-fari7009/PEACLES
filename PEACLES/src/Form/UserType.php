@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\EmailType;
 use Symfony\Component\Form\Extension\Core\TextareaType;
 use Symfony\Component\Form\Extension\Core\DateType;
 use Symfony\Component\Form\Extension\Core\IntegerType;
-
+use Symfony\Component\Form\Extension\Core\SubmitType;
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -25,6 +25,7 @@ class UserType extends AbstractType
             ->add('phone',IntegerType::class)
             ->add('bio',TextareaType::class)
             ->add('profile_pic',TextType::class)
+            ->add('save',SubmitType::class,['label' => 'Subscribe !'])
         ;
     }
 
