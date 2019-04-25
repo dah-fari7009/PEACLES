@@ -3,19 +3,26 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\AuthType;
+use App\Entity\Auth;
 
 class FormController extends AbstractController
 {
-    /**
-     * @Route("/signin", name="signin")
-     */
-    public function index()
-    {
-        
+  /**
+   * @Route("/signin")
+   */
+  public function signin(Request $request)
+  {
+      $auth = new Auth();
+      $auth->setEmail('');
+      $auth->setPwd('');
 
-        return $this->render('form/signin.html.twig', [
-            'controller_name' => 'FormController',
-        ]);
-    }
+      $form = $this->createForm(AuthType::class, $auth);
+
+      return $this->render('form/login.html.twig', array(
+          'form' => $form->createView(),
+      ));
+  }
 }
