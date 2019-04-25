@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
@@ -16,56 +17,51 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    protected $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    protected $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $password;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $bday;
+    protected $password;
 
     /**
      * @ORM\Column(type="bigint")
      */
-    private $phone;
+    protected $phone;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $bio;
+    protected $bio;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $profile_pic;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="user")
-     */
-    private $reservations;
+    protected $profile_pic;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    protected $roles = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="owner", orphanRemoval=true)
+     */
+    private $pictures;
 
     public function __construct()
     {
-        $this->reservations = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,18 +105,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBday(): ?\DateTimeInterface
-    {
-        return $this->bday;
-    }
-
-    public function setBday(\DateTimeInterface $bday): self
-    {
-        $this->bday = $bday;
-
-        return $this;
-    }
-
     public function getPhone(): ?int
     {
         return $this->phone;
@@ -157,37 +141,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Reservation[]
-     */
-    public function getReservations(): Collection
-    {
-        return $this->reservations;
-    }
-
-    public function addReservation(Reservation $reservation): self
-    {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations[] = $reservation;
-            $reservation->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReservation(Reservation $reservation): self
-    {
-        if ($this->reservations->contains($reservation)) {
-            $this->reservations->removeElement($reservation);
-            // set the owning side to null (unless already changed)
-            if ($reservation->getUser() === $this) {
-                $reservation->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -212,5 +165,36 @@ class User implements UserInterface
 
     public function eraseCredentials(): void
     {
+    }
+
+    /**
+     * @return Collection|Picture[]
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(Picture $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): self
+    {
+        if ($this->pictures->contains($picture)) {
+            $this->pictures->removeElement($picture);
+            // set the owning side to null (unless already changed)
+            if ($picture->getOwner() === $this) {
+                $picture->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }

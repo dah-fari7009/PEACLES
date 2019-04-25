@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PicturesRepository")
  */
-class Pictures
+class Picture
 {
     /**
      * @ORM\Id()
@@ -27,9 +27,11 @@ class Pictures
     private $caption;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="pictures")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
+
 
     public function getId(): ?int
     {
@@ -60,15 +62,16 @@ class Pictures
         return $this;
     }
 
-    public function getOwner(): ?int
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(int $owner): self
+    public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
 
         return $this;
     }
+
 }

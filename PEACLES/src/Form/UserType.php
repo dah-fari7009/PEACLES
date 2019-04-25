@@ -10,13 +10,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\LessThan;
+
 
 class UserType extends AbstractType
 {
@@ -43,15 +42,9 @@ class UserType extends AbstractType
                 ]),
             ]])
             //->add('rpwd',PasswordType::class,['label' => 'Confirm your Password : '])
-            ->add('bday',DateType::class,['label' => 'Your Birthday : ',
-            'constraints' => [
-                new LessThan('today')
-            ]])
             ->add('phone',IntegerType::class,['label' => 'Your Phone Number : '])
             //->add('bio',TextareaType::class)
             //->add('profile_pic',TextType::class)
-            ->add('save',SubmitType::class,['label' => 'Subscribe !'])
-            ->add('reset',ResetType::class,['label' => 'Reset'])
         ;
     }
 

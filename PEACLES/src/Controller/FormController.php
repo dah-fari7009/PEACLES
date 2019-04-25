@@ -8,10 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 //use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use App\Entity\User;
-use App\Form\UserType;
-use App\Form\AuthType;
-use App\Entity\Auth;
+use App\Entity\Client;
+use App\Form\ClientType;
 
 class FormController extends AbstractController
 {
@@ -20,10 +18,10 @@ class FormController extends AbstractController
      */
     public function signup(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $user=new User();
+        $user=new Client();
         $user->setBday(new \DateTime('tomorrow'));
         
-        $form=$this->createForm(UserType::class,$user);
+        $form=$this->createForm(ClientType::class,$user);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){

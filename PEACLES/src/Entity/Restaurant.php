@@ -9,44 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RestaurantRepository")
  */
-class Restaurant
+class Restaurant extends User
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $pwd;
-
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $phone;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $address;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $bio;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -64,65 +32,21 @@ class Restaurant
     private $max_seats;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $profile_pic;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $price_range;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="reservations")
+     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="id_resto")
      */
     private $reservations;
 
     public function __construct()
     {
+        parent::__construct();
         $this->reservations = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPwd(): ?string
-    {
-        return $this->pwd;
-    }
-
-    public function setPwd(string $pwd): self
-    {
-        $this->pwd = $pwd;
-
-        return $this;
-    }
-
-    public function getPhone(): ?int
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(int $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
 
     public function getAddress(): ?string
     {
@@ -132,30 +56,6 @@ class Restaurant
     public function setAddress(string $address): self
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getBio(): ?string
-    {
-        return $this->bio;
-    }
-
-    public function setBio(?string $bio): self
-    {
-        $this->bio = $bio;
 
         return $this;
     }
@@ -195,19 +95,6 @@ class Restaurant
 
         return $this;
     }
-
-    public function getProfilePic(): ?string
-    {
-        return $this->profile_pic;
-    }
-
-    public function setProfilePic(?string $profile_pic): self
-    {
-        $this->profile_pic = $profile_pic;
-
-        return $this;
-    }
-
     public function getPriceRange(): ?int
     {
         return $this->price_range;
@@ -232,7 +119,7 @@ class Restaurant
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations[] = $reservation;
-            $reservation->setReservations($this);
+            $reservation->setIdResto($this);
         }
 
         return $this;
@@ -243,8 +130,8 @@ class Restaurant
         if ($this->reservations->contains($reservation)) {
             $this->reservations->removeElement($reservation);
             // set the owning side to null (unless already changed)
-            if ($reservation->getReservations() === $this) {
-                $reservation->setReservations(null);
+            if ($reservation->getIdResto() === $this) {
+                $reservation->setIdResto(null);
             }
         }
 

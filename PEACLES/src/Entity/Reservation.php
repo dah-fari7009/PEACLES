@@ -17,9 +17,9 @@ class Reservation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reservations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reservations")
      */
-    private $id_user;
+    private $id_client;
     /**
      * @ORM\Column(type="date")
      */
@@ -43,7 +43,8 @@ class Reservation
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Restaurant", inversedBy="reservations")
      */
-    private $reservations;
+    private $id_resto;
+
 
 
     public function getId(): ?int
@@ -100,26 +101,26 @@ class Reservation
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getClient(): ?Client
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setClient(?Client $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getReservations(): ?Restaurant
+    public function getIdResto(): ?Restaurant
     {
-        return $this->reservations;
+        return $this->id_resto;
     }
 
-    public function setReservations(?Restaurant $reservations): self
+    public function setIdResto(?Restaurant $id_resto): self
     {
-        $this->reservations = $reservations;
+        $this->id_resto = $id_resto;
 
         return $this;
     }
