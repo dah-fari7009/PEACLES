@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+
 class Auth{
 
   private $email;
