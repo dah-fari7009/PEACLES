@@ -35,9 +35,6 @@ class FormController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
-            //everything else needed here
-            //redirection and sending emails for instance
         }
         return $this->render('form/signup.html.twig',[
             'form' => $form->createView(),
@@ -47,7 +44,7 @@ class FormController extends AbstractController
     /**
      * @Route("/modify")
      */
-      
+
      public function modify(Request $request){
 
      }
