@@ -6,11 +6,21 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\ReservationRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *      fields={"email"},
+ *      message=" You know, you could just sign in instead ..."
+ * )
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr",type="string")
+ * @ORM\DiscriminatorMap({"client" = "Client" , "resto" = "Restaurant" })
  */
-class User implements UserInterface
+abstract class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -61,6 +71,7 @@ class User implements UserInterface
 
     public function __construct()
     {
+
         $this->pictures = new ArrayCollection();
     }
 
@@ -168,6 +179,15 @@ class User implements UserInterface
     }
 
     /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return [];
+    }
+
+
+    /**
      * @return Collection|Picture[]
      */
     public function getPictures(): Collection
@@ -196,5 +216,26 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+   /* public function getReservationHistory(): Collection
+    {
+       return $this->getReservations()->filter(function(Reservation $reservation){
+           return $reservation->date <= new DateTime('today')&& $reservation->end < new Time('now');
+       }) ;
+    }
+*/
+    public function getReservationHistory(): Collection
+    {
+       return $this->getReservations()->matching(
+           ReservationRepository::createPastReservationCriteria()
+       );
+    }
+
+    public function getUpcomingReservations(): Collection
+    {
+        return $this->getReservations()->matching(
+            ReservationRepository::createUpcomingReservationCriteria()
+        ); 
     }
 }

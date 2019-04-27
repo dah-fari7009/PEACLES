@@ -1,5 +1,9 @@
 index:
     path: /
-    controller: \App\Controller\IndexController
+    controller: \App\Controller\IndexController::index
     defaults:
         template: 'index/index.html.twig'
+
+logout:
+  path: /logout
+  methods: GET

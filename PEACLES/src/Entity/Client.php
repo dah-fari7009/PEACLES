@@ -17,7 +17,7 @@ class Client extends User
     private $bday;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="client")
+     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="id_client")
      */
     private $reservations;
 
@@ -25,6 +25,7 @@ class Client extends User
     {
         parent::__construct();
         $this->reservations = new ArrayCollection();
+        $this->setRoles(['ROLE_CLIENT']);
     }
     
     public function getBday(): ?\DateTimeInterface
@@ -69,4 +70,5 @@ class Client extends User
 
         return $this;
     }
+
 }

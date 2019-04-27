@@ -1,13 +1,17 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    role_hierarchy:
+        ROLE_CLIENT: ROLE_USER
+        ROLE_RESTO: ROLE_USER
+
     encoders:
         App\Entity\User: 
             algorithm: bcrypt
             cost: 12
 
     providers:
-        database_clients:
-            entity: {class: App\Entity\Client, property: email}
+        database_users:
+            entity: {class: App\Entity\User, property: email}
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -17,6 +21,9 @@ security:
             guard:
                 authenticators:
                     - App\Security\LoginAuthenticator
+            logout:
+                path: logout
+                #target: index
 
             # activate different ways to authenticate
 
@@ -29,6 +36,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(signup|login), allow_if: "not has_role('ROLE_USER')" }
+        # switch to IS_AUTHENTICATED_REMEMBERED if we use the remember me feature
+        #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/search, roles: ROLE_CLIENT }
+
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

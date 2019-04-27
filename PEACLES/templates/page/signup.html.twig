@@ -1,0 +1,14 @@
+{#templates/form/signup.twig#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+{% block body %}
+    <p> Are you a : </p>
+    <div class="row">
+        <a href=" {{ path('signupc') }}">Client</a>
+        <a href=" {{ path('signupr') }}">Restaurant</a>
+    </div>
+
+{% endblock body %}
+        
+   

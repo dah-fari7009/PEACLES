@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PicturesRepository")
+ * @UniqueEntity("img_url");
  */
 class Picture
 {
@@ -18,6 +20,7 @@ class Picture
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
     private $img_url;
 

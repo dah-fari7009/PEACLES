@@ -45,6 +45,11 @@ class Reservation
      */
     private $id_resto;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\ReservationInfos", inversedBy="id_res", cascade={"persist", "remove"})
+     */
+    private $infos;
+
 
 
     public function getId(): ?int
@@ -101,18 +106,6 @@ class Reservation
         return $this;
     }
 
-    public function getClient(): ?Client
-    {
-        return $this->user;
-    }
-
-    public function setClient(?Client $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getIdResto(): ?Restaurant
     {
         return $this->id_resto;
@@ -136,4 +129,18 @@ class Reservation
 
         return $this;
     }
+
+    public function getInfos(): ?ReservationInfos
+    {
+        return $this->infos;
+    }
+
+    public function setInfos(?ReservationInfos $infos): self
+    {
+        $this->infos = $infos;
+
+        return $this;
+    }
+
+    
 }

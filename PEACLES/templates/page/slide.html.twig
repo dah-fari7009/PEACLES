@@ -1,0 +1,26 @@
+<div id="slide" class="carousel slide" data-ride="carosuel">
+        <div class="carousel-inner">
+            {% for key,item in list %}
+                <div class="carousel-item {% if key==0 %}active {% endif %}"> 
+                    <div class="card">
+                        <img src="" style="width:100%">
+                        {% if is_granted('ROLE_CLIENT') %}
+                        <h1> {{ item.idresto.username}}</h1>
+                        {% else %}
+                        <h1> {{ item.idclient.username }} </h1>
+                        {% endif %}
+                        <p> {{ item.date|date('Y-m-d') }} : {{ item.start|date('h:m:s') }} - {{ item.end|date('h:m:s') }} </p>
+                        <p><button> Infos </button>
+                            {% if future %}
+                                <button> Cancel </button>
+                            {% else %}
+                                {% if is_granted('ROLE_CLIENT') %}
+                                    <button> Make a reservation !</button>
+                                {% endif %}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+</div>

@@ -17,11 +17,6 @@ class ReservationInfos
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $id_res;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $text;
@@ -30,22 +25,15 @@ class ReservationInfos
      * @ORM\Column(type="integer")
      */
     private $people;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Reservation", mappedBy="infos", cascade={"persist", "remove"})
+     */
+    private $id_res;
     
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdRes(): ?int
-    {
-        return $this->id_res;
-    }
-
-    public function setIdRes(int $id_res): self
-    {
-        $this->id_res = $id_res;
-
-        return $this;
     }
 
     public function getText(): ?string
@@ -68,6 +56,24 @@ class ReservationInfos
     public function setPeople(int $people): self
     {
         $this->people = $people;
+
+        return $this;
+    }
+
+    public function getIdRes(): ?Reservation
+    {
+        return $this->id_res;
+    }
+
+    public function setIdRes(?Reservation $id_res): self
+    {
+        $this->id_res = $id_res;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newInfos = $id_res === null ? null : $this;
+        if ($newInfos !== $id_res->getInfos()) {
+            $id_res->setInfos($newInfos);
+        }
 
         return $this;
     }

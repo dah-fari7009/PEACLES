@@ -27,12 +27,12 @@ class Restaurant extends User
     private $min_seats;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $max_seats;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $price_range;
 
@@ -41,10 +41,17 @@ class Restaurant extends User
      */
     private $reservations;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Specialty", inversedBy="restaurants")
+     */
+    private $specialties;
+
     public function __construct()
     {
         parent::__construct();
         $this->reservations = new ArrayCollection();
+        $this->setRoles(['ROLE_RESTO']);
+        $this->specialties = new ArrayCollection();
     }
 
 
@@ -133,6 +140,39 @@ class Restaurant extends User
             if ($reservation->getIdResto() === $this) {
                 $reservation->setIdResto(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getAvailabilities()
+    {
+        return $this->getReservations()->matching(
+            ReservationRepository::createAvailabilityCriteria()
+        ); 
+    }
+
+    /**
+     * @return Collection|Specialty[]
+     */
+    public function getSpecialties(): Collection
+    {
+        return $this->specialties;
+    }
+
+    public function addSpecialty(Specialty $specialty): self
+    {
+        if (!$this->specialties->contains($specialty)) {
+            $this->specialties[] = $specialty;
+        }
+
+        return $this;
+    }
+
+    public function removeSpecialty(Specialty $specialty): self
+    {
+        if ($this->specialties->contains($specialty)) {
+            $this->specialties->removeElement($specialty);
         }
 
         return $this;
