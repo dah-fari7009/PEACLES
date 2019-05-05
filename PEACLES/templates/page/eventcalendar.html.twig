@@ -1,0 +1,31 @@
+{#templates/form/signup.twig#}
+{% extends 'base.html.twig' %}
+
+{% block title %}DEFRGTHJ{% endblock %}
+{% block body %}
+<div class="row">
+        <div class="col-md-5">
+            <p> TIMES SCHEDULED</p>
+    
+        </div>
+        <div class="col-md-7">
+            <p> SELECT DATE </p>
+            {{ include('page/monthcalendar.html.twig', {'start': 1,'month':6,'year':1997} )}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+    
+        </div>
+        <div class="col-md-5">
+    
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 offset-sm-10">
+            <input type="submit" value="Done">
+        </div>
+    </div>
+
+{% endblock body %}
+        
