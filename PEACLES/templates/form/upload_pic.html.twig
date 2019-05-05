@@ -1,0 +1,16 @@
+{#templates/form/signup.twig#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Upload{% endblock %}
+{% block body %}
+
+<h1>Uploading a photo</h1>
+
+    <div class="row">
+        {{ form_start(form) }}
+            {{ form_rest(form) }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock body %}

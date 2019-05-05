@@ -34,20 +34,19 @@ class HandlerListener
 
     private function uploadFile($entity)
     {
-        // upload only works for Product entities
         if (!$entity instanceof Picture) {
             return;
         }
-        $file = $entity->getBrochure();
+        $file = $entity->getImgUrl();
 
         // only upload new files
         if ($file instanceof UploadedFile) {
-            $fileName = $this->uploader->upload($file);
-            $entity->setBrochure($fileName);
+            $fileName = $this->handler->upload($file);
+            $entity->setImgUrl($fileName);
         } elseif ($file instanceof File) {
             // prevents the full file path being saved on updates
             // as the path is set on the postLoad listener
-            $entity->setBrochure($file->getFilename());
+            $entity->setImgUrl($file->getFilename());
         }
     }
 }
