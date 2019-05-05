@@ -1,0 +1,13 @@
+<div class="row border-bottom">
+    <div class="col-sm-2">
+            <img src="{{ resto.profilepic}}" class="img_rounded" alt="Profile Picture">
+    </div>
+    <div class="col-sm-7">
+        <h2> <a href="/profile?searched=">{{ resto.username }}</a></p>
+        <p>{% for spec in resto.specialties %}{{ spec.cuisine}} {% endfor %}</p>
+        <p> {{ resto.address }} </p>
+    </div>
+    <div class="col-sm-3 border-left">
+        {#Ici pour la note et les avis#}
+    </div>
+</div>

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block title%} Search {% endblock %}
+
+{% block body %}
+    {% for restaurant in results %}
+        {{ include('page/resdisplay.html.twig', {'resto': restaurant} )}}
+    {% endfor %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

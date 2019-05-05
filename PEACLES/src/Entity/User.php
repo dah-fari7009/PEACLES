@@ -8,6 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Repository\ReservationRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+
+$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 
 
 /**
@@ -31,6 +37,7 @@ abstract class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("group1")
      */
     protected $username;
 

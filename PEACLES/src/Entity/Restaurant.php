@@ -5,7 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Repository\ReservationRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RestaurantRepository")
  */
@@ -13,6 +14,7 @@ class Restaurant extends User
 {
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("group1")
      */
     private $address;
 
@@ -38,6 +40,7 @@ class Restaurant extends User
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="id_resto")
+     * @Groups("group1")
      */
     private $reservations;
 

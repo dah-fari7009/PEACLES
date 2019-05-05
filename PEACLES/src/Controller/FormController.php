@@ -56,8 +56,6 @@ class FormController extends AbstractController
     public function signRestoUp(Request $request, UserPasswordEncoderInterface $passwordEncoder,GuardAuthenticatorHandler $guardHandler, LoginAuthenticator $authenticator)
     {
         $user=new Restaurant();
-        //$user->setBday(new \DateTime('tomorrow'));
-        
         $form=$this->createForm(RestoType::class,$user);
 
         $form->handleRequest($request);

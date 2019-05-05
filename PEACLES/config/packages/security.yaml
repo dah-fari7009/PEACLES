@@ -40,7 +40,7 @@ security:
         # switch to IS_AUTHENTICATED_REMEMBERED if we use the remember me feature
         #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/search, roles: ROLE_CLIENT }
+        #- { path: ^/search, roles: ROLE_CLIENT }
 
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

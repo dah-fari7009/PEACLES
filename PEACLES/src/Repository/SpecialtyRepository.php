@@ -19,22 +19,22 @@ class SpecialtyRepository extends ServiceEntityRepository
         parent::__construct($registry, Specialty::class);
     }
 
-    // /**
-    //  * @return Specialty[] Returns an array of Specialty objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+      * @return Specialty[] Returns an array of Specialty objects
+    */
+    
+    public function searchByCuisine($key)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('s.cuisine LIKE :key')
+            ->setParameter('key', '%'.$key.'%')
+            ->orderBy('s.cuisine', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+    
 
     /*
     public function findOneBySomeField($value): ?Specialty
