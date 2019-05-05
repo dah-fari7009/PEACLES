@@ -1,0 +1,19 @@
+{% set tab = dates(start,month,year) %}
+<div class="row">
+    <p> {{ month }} {{ year }} </p>
+</div>
+<div class="row">
+
+    {% for key,value in tab %}
+        <div class="col">
+            <p> key </p>
+            {% for day in value %}
+                {% if day<7 and index(key,tab)<value %}
+                    <p></p>
+                {% else %}
+                    <p> day </p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
