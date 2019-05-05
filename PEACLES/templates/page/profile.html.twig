@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %} {{ app.user.username }}'s profile {% endblock %}
+
+{% block body %}
+
+{% if is_granted('ROLE_RESTO') %}
+
+<div class='row'>
+  <img  class='img-circle' width="300" height="300" src="{{ app.user.profile_pic }}" alt="Four ow four alala">
+  <p class="h1"> {{ app.user.username }} </p>
+</div>
+<a href="/modify" class="btn btn-primary btn-sm">Modify the profile</a>
+
+<p class="h3"> {{ app.user.phone }} </p>
+<p class="h3"> {{ app.user.address }} </p>
+
+<p class="h3"> {{ app.user.bio }} </p>
+
+{% endif %}
+
+{% if is_granted('ROLE_CLIENT') %}
+
+
+{% do render('form/modify.html.twig') %}
+
+{% endif %}
+
+{% endblock %}

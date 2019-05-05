@@ -5,6 +5,8 @@ use App\Entity\Restaurant;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+
 
 class RestoType extends UserType{
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -12,7 +14,9 @@ class RestoType extends UserType{
         parent::buildForm($builder,$options);
         $builder
             ->add('address',TextType::class,['label' => 'Your Adress : '])
-            //age minimal et nombre de places à la suite
+            ->add('min_seats', IntegerType::class, ['label' => 'Min seats'])
+            ->add('max_seats', IntegerType::class, ['label' => 'Max seats'])
+            ->add('min_age', IntegerType::class, ['label' => 'Age restriction'])
         ;
     }
 

@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use App\Security\LoginAuthenticator;
 use App\Entity\Client;
+use App\Entity\User;
 use App\Form\ClientType;
 use App\Entity\Restaurant;
 use App\Form\RestoType;
@@ -23,7 +24,7 @@ class FormController extends AbstractController
     {
         $user=new Client();
         $user->setBday(new \DateTime('tomorrow'));
-        
+
         $form=$this->createForm(ClientType::class,$user);
 
         $form->handleRequest($request);
@@ -87,6 +88,47 @@ class FormController extends AbstractController
      */
 
      public function modify(Request $request){
+       $old = $this.getUser();
+       if($old instanceof Client){
+         $em = $this->getDoctrine()->getManager();
+         $user = $em->getRepository(Client::class).findby($old.getId());
+         $form=createForm(ClientType::class, $user);
+         $form->handleRequest($request);
+         if($form->isSubmitted() && $form->isValid()){
+             $em->persist($user);
+             $em->flush();
+             return $guardHandler->authenticateUserAndHandleSuccess(
+                 $user,
+                 $request,
+                 $authenticator,
+                 'main'
+             );
+         }
+         return $this->render('form/modify.html.twig',[
+             'form' => $form->createView(),
+         ]);
+       }
+       if($old instanceof Restaurant){
+         $em = $this->getDoctrine()->getManager();
+         $user = $em->getRepository(Client::class).findby($old.getId());
+         $form=createForm(RestoType::class, $user);
+         $form->get('email')->setData($user.getEmail());
+         $form->handleRequest($request);
+         if($form->isSubmitted() && $form->isValid()){
+             $em = $this->getDoctrine()->getManager();
+             $em->persist($user);
+             $em->flush();
+             return $guardHandler->authenticateUserAndHandleSuccess(
+                 $user,
+                 $request,
+                 $authenticator,
+                 'main'
+             );
+         }
+         return $this->render('form/modify.html.twig',[
+             'form' => $form->createView(),
+         ]);
+       }
 
      }
   }

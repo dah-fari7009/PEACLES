@@ -5,6 +5,11 @@
 {% block body %}
     <div class="row">
         {{ form_start(form) }}
+            {% do form.bio.setRendered() %}
+            {% do form.profile_pic.setRendered() %}
+            {% if form.min_seats is defined %}  {% do form.min_seats.setRendered() %} {% endif %}
+            {% if form.max_seat is defined %}  {% do form.max_seats.setRendered() %} {% endif %}
+            {% if form.min_age is defined %}  {% do form.min_age.setRendered() %} {% endif %}
             {{ form_rest(form) }}
             <button type="submit" class="btn btn-primary">Submit</button>
             <button type="reset" class="btn btn-primary">Reset</button>
@@ -12,5 +17,3 @@
     </div>
 
 {% endblock body %}
-        
-   

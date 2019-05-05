@@ -13,6 +13,8 @@ use App\Entity\Specialty;
 use App\Entity\Restaurant;
 
 class ClientActionController extends UserActionController{
+
+
     /**
      * @Route("/make_r",name="maker",methods={"POST"})
      */
@@ -28,9 +30,14 @@ class ClientActionController extends UserActionController{
 
     public function cancelReservation(Request $request)
     {
-        $res=$request->request->get('id');
-        //delete from reservation
-        //return $this->render("page/.html.twig");
+      $idRes = $request->request.get('item.id');
+      $em = $this->getDoctrine()->getManager();
+      $res = $em->getRepository(Reservation::class).findby($idRes);
+      $res.setStatus(0);
+      $res.setIdClient(null);
+      $em->persist($res);
+      $em->flush();
+      return;
     }
 
     /**
@@ -62,5 +69,5 @@ class ClientActionController extends UserActionController{
     }
 }
 
-//il faut, chercher ce qui satisfait la requete, ensuite chercher parmi les résultats de la requete à chaque fois 
+//il faut, chercher ce qui satisfait la requete, ensuite chercher parmi les résultats de la requete à chaque fois
 ?>

@@ -6,23 +6,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-class RestoActionController extends UserActionController{
-    /**
-     * @Route("/accept_r",name="acceptr",methods={"POST"})
-     */
+use App\Entity\Reservation;
 
-     public function acceptReservation(Request $request)
-     {
-         //return $this->render("page/.html.twig");
-     }
+
+class RestoActionController extends UserActionController{
 
      /**
-     * @Route("/refuse_r",name="refuser",methods={"POST"})
+     * @Route("/cancel_r",name="cancel_r",methods={"POST"})
      */
 
-    public function refuseReservation(Request $request)
+    public function cancelReservation(Request $request)
     {
-        //return $this->render("page/.html.twig");
+      $idRes = $request->request.get('item.id');
+      $em = $this->getDoctrine()->getManager();
+      $oldRes = $em->getRepository(Reservation::class).findby($idRes);
+      $oldRes.setStatus(3);
+
+      $newRes = new Reservation();
+      $newRes.setIdClient(null);
+      $newRes.setIdResto($oldRes.getIdResto());
+      $newRes.setDate($oldRes.getDate());
+      $newRes.setStart($oldRes.getStart());
+      $newRes.setEnd($oldRes.getEnd());
+      $newRes.setStatus(0);
+      $newRes.setInfos(null);
+
+      $em->persist($oldRes);
+      $em->persist($newRes);
+      $em->flush();
+      return;
     }
 
     /**
@@ -34,9 +46,9 @@ class RestoActionController extends UserActionController{
 
      }
 
-     
 
 
-    
+
+
 }
 ?>

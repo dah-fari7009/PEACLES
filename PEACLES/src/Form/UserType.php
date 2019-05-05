@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
@@ -41,10 +42,21 @@ class UserType extends AbstractType
                     'maxMessage' => "Ah, that's a long one !"
                 ]),
             ]])
-            //->add('rpwd',PasswordType::class,['label' => 'Confirm your Password : '])
+            //->add('rpwd',PasswordType::class,['label' => 'Confirm your Password : ']),
             ->add('phone',IntegerType::class,['label' => 'Your Phone Number : '])
-            //->add('bio',TextareaType::class)
-            //->add('profile_pic',TextType::class)
+            ->add('bio',TextareaType::class, [
+              'label' => 'Bio',
+              'constraints' => [
+                new Length([
+                  'max' => 200,
+                  'maxMessage' => "Bio must be  shorter than 200 characters"
+                ]),
+              ]
+            ])
+            ->add('profile_pic',FileType::class, [
+              'label'=> 'Picture : ',
+              'mapped'=> 'false'
+          ])
         ;
     }
 

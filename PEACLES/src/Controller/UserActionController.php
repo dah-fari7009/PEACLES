@@ -12,15 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserActionController extends AbstractController{
-    /**
-     * @Route("/update_bio",name="updatebio",methods={"POST"})
-     */
-
-    public function updateBio(Request $request)
-    {
-        //return $this->render("page/.html.twig");
-    }
-
 
     /**
      * @Route("/upload",name="upload")
