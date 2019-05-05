@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
@@ -16,8 +17,8 @@ class AppExtension extends AbstractExtension{
     public function getMonth($start,$month,$year){
         $list=array("Mon"=>[],"Tue"=>[],"Wed"=>[],"Thu"=>[],"Fri"=>[],"Sat"=>[],"Sun"=>[]);
         $keys=array_keys($list);
-        $end=date('d',cal_days_in_month(CAL_GREGORIAN,$month,$year));
-        for($i=$start;$end;$i++){
+        $end=date("d",mktime(0,0,0,$month+1,0,$year));
+        for($i=$start;$i<$end;$i++){
             $day=date('N',mktime(0,0,$month,$i,$year));
             array_push($list[$keys[$day-1]],$i);
         }

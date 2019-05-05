@@ -12,6 +12,6 @@ class IndexController extends AbstractController
      */
     public function index()
     {
-        return $this->render('index/index.html.twig');
+        return $this->render('page/eventcalendar.html.twig');
     }
 }
