@@ -6,13 +6,13 @@
 
     {% for key,value in tab %}
         <div class="col">
-            <p> key </p>
+            <p> {{ key }} </p>
             {% for day in value %}
-                {% if day<7 and index(key,tab)<value %}
-                    <p></p>
-                {% else %}
-                    <p> day </p>
+                {% if day<=7 and index(key,tab)+1<day %}
+                    <p><br></p>
                 {% endif %}
+                 <p> {{ day }} </p>
+                
             {% endfor %}
         </div>
     {% endfor %}
