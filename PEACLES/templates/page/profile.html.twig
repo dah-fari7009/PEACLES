@@ -9,6 +9,10 @@
 
 <div class='row'>
   <img  class='img-circle' width="300" height="300" src="{{ app.user.profile_pic }}" alt="Four ow four alala">
+  <button type="button" class="btn btn-warning" id="upfile1">Change PP</button>
+  <form action="/change_pp" method="post">
+    <input type="file" id="file1"  data-id="newpp" name="file1" style="display:none" onchange="this.form.submit();"/>
+  </form>
   <p class="h1"> {{ app.user.username }} </p>
 </div>
 <a href="/modify" class="btn btn-primary btn-sm">Modify the profile</a>
@@ -26,5 +30,13 @@
 {% do render('form/modify.html.twig') %}
 
 {% endif %}
+
+{% block javascripts %}
+<script>
+  $("#upfile1").click(function () {
+    $("#file1").trigger('click');
+  });
+</script>
+{% endblock %}
 
 {% endblock %}

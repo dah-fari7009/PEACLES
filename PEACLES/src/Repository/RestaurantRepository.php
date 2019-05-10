@@ -31,7 +31,7 @@ class RestaurantRepository extends ServiceEntityRepository
             ->setParameter('key','%'.$key.'%')
             ->getQuery()
             ->getResult();
-            
+
     }
 
 
@@ -84,7 +84,23 @@ class RestaurantRepository extends ServiceEntityRepository
         }
         return $query->getQuery()
             ->getResult();
-            
+
+
+    }
+
+    public function findClosestRestos($long, $lat)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->join('r.location', 'l')
+            ->addSelect('r')
+            ->addSelect('ST_Distance_Sphere(POINT(l.lon,l.lat),POINT(:long,:lat))/1000 as distance')
+            ->andWhere('distance < 15')
+            ->setParameter('long', $long)
+            ->setParameter('lat', $lat)
+            ->orderBy('distance', 'ASC')
+            ->getQuery();
+
+        return $qb->execute();
 
     }
 

@@ -20,7 +20,7 @@ class RestoActionController extends UserActionController{
       $idRes = $request->request.get('item.id');
       $em = $this->getDoctrine()->getManager();
       $oldRes = $em->getRepository(Reservation::class).findby($idRes);
-      $oldRes.setStatus(3);
+      $oldRes.setStatus(1);
 
       $newRes = new Reservation();
       $newRes.setIdClient(null);
@@ -28,7 +28,6 @@ class RestoActionController extends UserActionController{
       $newRes.setDate($oldRes.getDate());
       $newRes.setStart($oldRes.getStart());
       $newRes.setEnd($oldRes.getEnd());
-      $newRes.setStatus(0);
       $newRes.setInfos(null);
 
       $em->persist($oldRes);

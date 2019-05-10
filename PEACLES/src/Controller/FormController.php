@@ -88,7 +88,7 @@ class FormController extends AbstractController
      */
 
      public function modify(Request $request){
-       $old = $this.getUser();
+       $old = $this->getUser();
        if($old instanceof Client){
          $em = $this->getDoctrine()->getManager();
          $user = $em->getRepository(Client::class).findby($old.getId());
