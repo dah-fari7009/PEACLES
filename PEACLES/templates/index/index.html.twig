@@ -4,8 +4,8 @@
 {% block body %}
 <div class="jumbotron"></div>
   <div class="jumbotron text-center">
-      <h1>Main Page</h1> 
-      <p>Look for a restaurant </p> 
+      <h1>Main Page</h1>
+      <p>Look for a restaurant </p>
       <form class="form-inline" method="get" action="{{ path('search')}}" >
         <div class="input-group">
           <input type="text" name="key" class="form-control" id="search" size="50" placeholder="Thai Richer ..." autocomplete="off" required>
@@ -17,7 +17,7 @@
       <div id="search-result">
 
       </div>
-    </div>
+
   </div>
   {% endblock %}
   {% block javascripts %}

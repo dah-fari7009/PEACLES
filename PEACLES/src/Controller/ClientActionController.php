@@ -33,7 +33,6 @@ class ClientActionController extends UserActionController{
       $idRes = $request->request.get('item.id');
       $em = $this->getDoctrine()->getManager();
       $res = $em->getRepository(Reservation::class).findby($idRes);
-      $res.setStatus(0);
       $res.setIdClient(null);
       $em->persist($res);
       $em->flush();
@@ -67,6 +66,18 @@ class ClientActionController extends UserActionController{
             ->searchMultiple($keys);
     return $this->render("page/results.html.twig",["results" => $results]);
     }
+
+    /**
+    * @Route("/closest",name="closest",methods={"POST"})
+    */
+   public function searchCloseRestaurants(Request $request)
+   {
+     $long= $request->request.get('longitude');
+     $lat= $request->request.get('latitude');
+     $em = $this->getDoctrine()->getManager();
+     $res = $em->getRepository(Restaurant::class).findClosestRestos($long, $lat);
+     return $this->render("page/results.html.twig",["results" => $res]);
+   }
 }
 
 //il faut, chercher ce qui satisfait la requete, ensuite chercher parmi les résultats de la requete à chaque fois

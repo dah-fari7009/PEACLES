@@ -33,7 +33,7 @@ class UserActionController extends AbstractController{
             // Move the file to the images directory
             try {
                 $file->move(
-                    $this->getParameter('users_images'),
+                    $this->getParameter('user_images_directory'),
                     $fileName
                 );
             } catch (FileException $e) {
@@ -66,11 +66,28 @@ class UserActionController extends AbstractController{
      */
 
      /**
-      * @Route("/change_pp",name="changepp",methods={"POST"})
+      * @Route("/",name="changepp",methods={"POST"})
       */
 
       public function change_pp(Request $request){
-
+        $new = $request->request.get('new_pp');
+        $file = $new->getImgUrl();
+        $fileName = $fileHandler->upload($file);
+        try {
+            $file->move(
+                $this->getParameter('user_images_directory'),
+                $fileName
+            );
+        } catch (FileException $e) {
+        }
+        $new->setImgUrl($fileName);
+        $username = $this->getUser()->getUsername();
+        $em = $this->getDoctrine()->getManager();
+        $usr = $em->getRepository(User::class).findby(username);
+        $usr.setProfilePic($filename);
+        $em->persist($usr);
+        $em->flush();
+        return $this->render('page/profile.html.twig');
       }
 
 
