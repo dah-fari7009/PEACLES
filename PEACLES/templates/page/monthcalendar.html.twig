@@ -1,19 +1,25 @@
-{% set tab = dates(start,month,year) %}
-<div class="row">
-    <p> {{ month }} {{ year }} </p>
-</div>
-<div class="row">
-
-    {% for key,value in tab %}
-        <div class="col">
-            <p> {{ key }} </p>
-            {% for day in value %}
-                {% if day<=7 and index(key,tab)+1<day %}
-                    <p><br></p>
-                {% endif %}
-                 <p> {{ day }} </p>
-                
+{% set tab = dates(1,month,year) %}
+<div class="carousel-item {% if start!=1 %} active {% endif %}">
+    <div class="row">
+            <div class="col-md-2 offset-md-5">
+                    <p> <span class="month">{{ month }}</span>/<span class="year">{{ year }}</span></p>
+            </div>
+            
+    </div>
+        <div class="row">
+        
+            {% for key,value in tab %}
+                <div class="col">
+                    <p> {{ key }} </p>
+                    {% for day in value %}
+                        {% if day<=7 and index(key,tab)+1<day %}
+                            <p><br></p>
+                        {% endif %}
+                                <p> {% if day>=start %}<span class="day">{% endif %}{{ day }}</span</p>
+                    
+                        
+                    {% endfor %}
+                </div>
             {% endfor %}
-        </div>
-    {% endfor %}
+    </div>
 </div>

@@ -1,0 +1,26 @@
+{#templates/form/signup.twig#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservations{% endblock %}
+{% block body %}
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" id="past-tab" data-toggle="tab" href="#past" role="tab" aria-controls="past" aria-selected="true">History</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" id="future-tab" data-toggle="tab" href="#future" role="tab" aria-controls="future" aria-selected="false">Upcoming</a>
+        </li>
+    </ul>
+    {# Panes #}
+
+    <div class="tab-content" id="content">
+        <div class="tab-pane fade show active" id="past" role="tabpanel" aria-labelledby="past-tab">
+            {{ include('page/slide.html.twig', {'future': false, 'list' : past} )}}
+        </div>
+        <div class="tab-pane fade" id="future" role="tabpanel" aria-labelledby="future-tab">
+            {{ include('page/slide.html.twig', {'future': true, 'list' : future} )}}     
+        </div>
+    </div>
+{% endblock body %}
+        
+   

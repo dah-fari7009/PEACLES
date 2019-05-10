@@ -93,7 +93,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        if($this->getUser() instanceof Restaurant){
+        if($token->getUser() instanceof Restaurant){
             $url=$this->urlGenerator->generate('setup');
             return new RedirectResponse($url);
         }

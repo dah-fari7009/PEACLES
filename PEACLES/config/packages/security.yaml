@@ -36,11 +36,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/(signup|login), allow_if: "not has_role('ROLE_USER')" }
+        - { path: ^/(signup|login), allow_if: "not has_role('ROLE_USER')" }
         # switch to IS_AUTHENTICATED_REMEMBERED if we use the remember me feature
         #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }
-        # - { path: ^/profile, roles: ROLE_USER }
-        #- { path: ^/search, roles: ROLE_CLIENT }
+        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/search, roles: ROLE_CLIENT }
 
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

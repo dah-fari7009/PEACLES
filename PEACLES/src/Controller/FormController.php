@@ -84,7 +84,7 @@ class FormController extends AbstractController
     }
 
     /**
-     * @Route("/modify")
+     * @Route("/modify",name="modify")
      */
 
      public function modify(Request $request){
@@ -110,7 +110,7 @@ class FormController extends AbstractController
        }
        if($old instanceof Restaurant){
          $em = $this->getDoctrine()->getManager();
-         $user = $em->getRepository(Client::class).findby($old.getId());
+         $user = $em->getRepository(Restaurant::class).findby($old.getId());
          $form=createForm(RestoType::class, $user);
          $form->get('email')->setData($user.getEmail());
          $form->handleRequest($request);
@@ -130,5 +130,12 @@ class FormController extends AbstractController
          ]);
        }
 
+     }
+
+     /**
+      * @Route("/setup",name="setup")
+      */
+     public function setup(Request $request){
+         return $this->render('page/eventcalendar.html.twig');
      }
   }

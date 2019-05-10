@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReservationRepository")
  */
@@ -13,6 +13,7 @@ class Reservation
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("group1")
      */
     private $id;
 
@@ -22,16 +23,19 @@ class Reservation
     private $id_client;
     /**
      * @ORM\Column(type="date")
+     * @Groups("group1")
      */
     private $date;
 
     /**
      * @ORM\Column(type="time")
+     * @Groups("group1")
      */
     private $start;
 
     /**
      * @ORM\Column(type="time")
+     * @Groups("group1")
      */
     private $end;
 
