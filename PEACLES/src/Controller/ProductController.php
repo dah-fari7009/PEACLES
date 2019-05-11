@@ -14,7 +14,7 @@ use App\Entity\Product;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/product", name="product")
+     * @Route("/menu", name="product")
      */
     public function index()
     {

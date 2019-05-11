@@ -16,6 +16,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
         <link href="css/navbar.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
         {% endblock %}
     </head>
     <body>
@@ -44,8 +45,8 @@
                     </div>
                   </div>
               {% else %}
-                <a href="{{ path('app_login') }}">Log in</a>
-                <a href="{{ path('signup') }}">Sign up</a>
+                <a href="{{ path('app_login') }} " style='color : black'>Log in</a>
+                <a href="{{ path('signup') }}" style='color : black'>Sign up</a>
               {% endif %}
             </div>
           </div>

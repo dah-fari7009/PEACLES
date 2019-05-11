@@ -4,6 +4,9 @@
 {% block title %}Sign Up{% endblock %}
 {% block body %}
     <div class="row">
+      <div class="col-lg-4 ">
+      </div>
+      <div class="col-lg-4 centered" style="margin:0 auto;text-align:center">
         {{ form_start(form) }}
             {% do form.bio.setRendered() %}
             {% do form.profile_pic.setRendered() %}
@@ -11,9 +14,12 @@
             {% if form.max_seats is defined %}  {% do form.max_seats.setRendered() %} {% endif %}
             {% if form.min_age is defined %}  {% do form.min_age.setRendered() %} {% endif %}
             {{ form_rest(form) }}
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="reset" class="btn btn-primary">Reset</button>
+            <button type="submit" class="btn btn-danger">Submit</button>
+            <button type="reset" class="btn btn-danger">Reset</button>
         {{ form_end(form) }}
+      </div>
+      <div class="col-lg-4 ">
+      </div>
     </div>
 
 {% endblock body %}
