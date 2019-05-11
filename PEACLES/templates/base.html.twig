@@ -12,14 +12,20 @@
 			     crossorigin="anonymous">
         </script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
+        <link href="css/navbar.css" rel="stylesheet">
         {% endblock %}
     </head>
     <body>
       {% block topbar %}
-        <nav class="navbar navbar-default">
+        <nav class="navbar" style="{{ asset('css/navbar.css') }}">
           <div class="container-fluid" style="margin: 20px;">
             <div class="navbar-header">
-              <a class="navbar-brand" href="/">PEACLES</a>
+              <a class='navbar-brand' href="/">
+                <img   src=" {{ asset('images/logo.png') }}" alt="Logo" href="/" style="height : 5%; width : 5%">
+              </a>
             </div>
             <div class="row-mx">
               {% if is_granted('ROLE_USER') %}
@@ -28,15 +34,15 @@
                 {% else %}
                 {% endif %}
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      {{ app.user.username }}
+                    <button class="btn btn-secondary-xs dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='background:transparent;'>
+                      <img src="{#{{ app.user.profile_pic }}#}{{ asset("images/resto_icon.png") }}" style='height:5%; width: 5%; border-radius : 50%;'>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <a class="dropdown-item" href="{{ path('profile') }}">My profile </a>
                       <a class="dropdown-item" href="{{ path('reservation') }}">My reservations</a>
+                      <a href="/logout">Log out </a>
                     </div>
                   </div>
-                  <a href="/logout">Log out </a>
               {% else %}
                 <a href="{{ path('app_login') }}">Log in</a>
                 <a href="{{ path('signup') }}">Sign up</a>

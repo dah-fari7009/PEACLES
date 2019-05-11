@@ -21,13 +21,40 @@ class ClientActionController extends UserActionController{
 
      public function makeReservation(Request $request)
      {
-         //return $this->render("page/.html.twig");
+         $client= $this->getUser();
+         $date = $request->request->get('date');
+         $start = $request->request->get('start');
+         $end = $request->request->get('end');
+         $idRes = $request->request->get('id_res');
+         $text = $request->request->get('info_text');
+         $people = $request->request->get('people');
+
+         $infos = new ReservationInfos();
+         $infos->setText($text);
+         $infos->setIdRes($idRes);
+         $infos->setPeople($people);
+
+         $res = new Reservation();
+         $res->setIdClient($client->getId());
+         $res->setIdResto($idRes);
+         $res->setStatus(0);
+         $res->setStart($start);
+         $res->setEnd($end);
+         $res->setDate($date);
+         $res->setInfos($infos);
+
+         $em = $this->getDoctrine()->getManager();
+         $em->persist($res);
+         $êm->persist($infos);
+         $em->flush();
+
+         return $this->render('page/book.html.twig');
+
      }
 
      /**
      * @Route("/cancel_r",name="cancelr",methods={"POST"})
      */
-
     public function cancelReservation(Request $request)
     {
       $idRes = $request->request.get('item.id');
@@ -36,7 +63,7 @@ class ClientActionController extends UserActionController{
       $res.setIdClient(null);
       $em->persist($res);
       $em->flush();
-      return;
+      return $this->render('page/book.html.twig');
     }
 
     /**

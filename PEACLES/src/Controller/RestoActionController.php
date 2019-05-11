@@ -33,7 +33,7 @@ class RestoActionController extends UserActionController{
       $em->persist($oldRes);
       $em->persist($newRes);
       $em->flush();
-      return;
+      return $this->render('page/profile.html.twig');
     }
 
     /**

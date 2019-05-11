@@ -1,35 +1,53 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %} {{ app.user.username }}'s profile {% endblock %}
+{% block title %} {#{{ app.user.username }}#}Username's profile {% endblock %}
 
 {% block body %}
 
-{% if is_granted('ROLE_RESTO') %}
+{#{% if is_granted('ROLE_RESTO') %}#}
 
-<div class='row'>
-  <img  class='img-circle' width="300" height="300" src="{{ app.user.profile_pic }}" alt="Four ow four alala">
-  <button type="button" class="btn btn-warning" id="upfile1">Change PP</button>
-  <form action="/change_pp" method="post">
-    <input type="file" id="file1"  data-id="newpp" name="file1" style="display:none" onchange="this.form.submit();"/>
-  </form>
-  <p class="h1"> {{ app.user.username }} </p>
+<div class='row' style='margin-top : 5%;'>
+
+  <div class='col-md-4'>
+    <p class="h1"> {#{{ app.user.username }}  #}Username </p>
+    <img  class='img img-circle' src="{#{{ app.user.profile_pic }}#}{{ asset('images/resto_icon.png') }}" alt="Four ow four alala" style="height : 65%; width : 65%; border: 1px solid #ddd; border-radius: 50%; margin-top: 5%; margin-bottom : 5%;">
+    <div class='row'>
+        <button type="button" class="btn btn-warning btn-sm" id="upfile1">Change PP</button>
+        <form action="/change_pp" method="post">
+          <input type="file" id="file1"  data-id="newpp" name="file1" style="display:none" onchange="this.form.submit();"/>
+        </form>
+        <a href="/modify" class="btn btn-primary btn-sm">Modify the profile</a>
+    </div>
+  </div>
+  <div class='col-md-8'>
+    <br>
+    <p class="h3"> <u>Address</u> : {#{{ app.user.address }}#} 123 chez Faridah 75000 District des Mamans</p>
+    <br><br>
+    <p class="h3"> <u>Phone number</u> : {#{{ app.user.phone }} #} 0123456789</p>
+
+
+  </div>
 </div>
-<a href="/modify" class="btn btn-primary btn-sm">Modify the profile</a>
-
-<p class="h3"> {{ app.user.phone }} </p>
-<p class="h3"> {{ app.user.address }} </p>
-
-<p class="h3"> {{ app.user.bio }} </p>
-
-{% endif %}
-
-{% if is_granted('ROLE_CLIENT') %}
+<p class="h3" style="margin-top : 2%; margin-left : 10%; margin-right: 10%"> {#{{ app.user.bio }}#} The first CSS block is similar to the code in Example 1.
+ In addition, we have added what should happen when a user hovers over one of the images.
+In this case we want the image to NOT be transparent when the user hovers over it.
+The CSS for this
+</p>
 
 
-{% do render('form/modify.html.twig') %}
 
-{% endif %}
+{#{% endif %}#}
+
+{#{% if is_granted('ROLE_CLIENT') %}#}
+
+
+{#{% do render('form/modify.html.twig') %}#}
+
+{#{% endif %}#}
+
+{% endblock %}
+
 
 {% block javascripts %}
 <script>
@@ -37,6 +55,4 @@
     $("#file1").trigger('click');
   });
 </script>
-{% endblock %}
-
 {% endblock %}
