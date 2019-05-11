@@ -45,12 +45,18 @@ class Restaurant extends User
      */
     private $specialties;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="id_resto", orphanRemoval=true)
+     */
+    private $products;
+
     public function __construct()
     {
         parent::__construct();
         $this->reservations = new ArrayCollection();
         $this->setRoles(['ROLE_RESTO']);
         $this->specialties = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
 
@@ -172,6 +178,37 @@ class Restaurant extends User
     {
         if ($this->specialties->contains($specialty)) {
             $this->specialties->removeElement($specialty);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setIdResto($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getIdResto() === $this) {
+                $product->setIdResto(null);
+            }
         }
 
         return $this;

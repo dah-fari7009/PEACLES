@@ -3,12 +3,24 @@
 
 {% block title %}Sign Up{% endblock %}
 {% block body %}
-    <p> Are you a : </p>
-    <div class="row">
-        <a href=" {{ path('signupc') }}">Client</a>
-        <a href=" {{ path('signupr') }}">Restaurant</a>
+
+    <div class="row" style="margin-top : 5%">
+      <div class="col-md-6">
+        <div class='jumbotron text-center' style="background : transparent;">
+          <a href=" {{ path('signupc') }}">
+            <p>Restaurant</p>
+            <img src=" {{ asset('images/resto_icon.png') }}" alt="Resto icon" href=" {{ path('signupr') }}" style="height : 60%; width : 60%">
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class='jumbotron text-center' style="background : transparent;">
+          <a href=" {{ path('signupc') }}">
+          <p>Client</p>
+          <img src=" {{ asset('images/client_icon.png') }}" alt="Client icon" href=" {{ path('signupc') }}" style="height : 60%; width : 60%">
+          </a>
+        </div>
+      </div>
     </div>
 
 {% endblock body %}
-        
-   

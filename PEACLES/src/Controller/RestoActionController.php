@@ -21,7 +21,7 @@ class RestoActionController extends UserActionController{
     {
       $idRes = $request->request.get('item.id');
       $em = $this->getDoctrine()->getManager();
-      $oldRes = $em->getRepository(Reservation::class).findby($idRes);
+      $oldRes = $em->getRepository(Reservation::class).findBy($idRes);
       $oldRes.setStatus(1);
 
       $newRes = new Reservation();
@@ -35,7 +35,7 @@ class RestoActionController extends UserActionController{
       $em->persist($oldRes);
       $em->persist($newRes);
       $em->flush();
-      return;
+      return $this->render('page/profile.html.twig');
     }
 
     /**

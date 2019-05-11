@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Menu{% endblock %}
+
+{% block body %}
+{% if is_granted('ROLE_RESTO') %}
+
+<h3>Entries</h3>
+<button type="button" class="btn btn-succcess btn-sm" id="addEntry">Add</button>
+<form class='row form-group' id='entryInput' >
+    <div class='col-md-6'>
+      <input type='text' name='p_name'>
+    </div>
+    <div class='col-md-6'>
+      <input type='text' name='price'>
+    </div>
+</form>
+
+
+{% for entry in products[0] %}
+  <div class='row'>
+    <div class='id' style='display:none'>{{ entry.id }}</div>
+    <div class='col-md-5'>
+      {{ entry.name }}
+    </div>
+    <div class='col-md-5'>
+      {{ entry.price }}
+    </div>
+    <div class='col-md-2'>
+      <button type="button" class="btn btn-danger btn-xs remove-btn">Remove</button>
+    </div>
+  </div>
+{% endfor %}
+
+<h3>Dishes</h3>
+<button type="button" class="btn btn-succcess btn-sm" id="addDish">Add</button>
+<form class='row form-group' id='dishInput' >
+    <div class='col-md-6'>
+      <input type='text' name='p_name'>
+    </div>
+    <div class='col-md-6'>
+      <input type='text' name='price'>
+    </div>
+</form>
+{% for dish in products[1] %}
+  <div class='row'>
+    <div class='id' style='display:none'>{{ dish.id }}</div>
+    <div class='col-md-5'>
+      {{ dish.name }}
+    </div>
+    <div class='col-md-5'>
+      {{ dish.price }}
+    </div>
+    <div class='col-md-2'>
+      <button type="button" class="btn btn-danger btn-xs" class='remove-btn'>Remove</button>
+    </div>
+  </div>
+{% endfor %}
+
+<h3>Desserts</h3>
+<button type="button" class="btn btn-succcess btn-sm" id="addDessert">Add</button>
+<form  class='row form-group' id='dessertInput' >
+    <div class='col-md-6'>
+      <input type='text' name='p_name'>
+    </div>
+    <div class='col-md-6'>
+      <input type='text' name='price'>
+    </div>
+</form>
+{% for des in products[2] %}
+  <div class='row'>
+    <div class='id' style='display:none'>{{ dessert.id }}</div>
+    <div class='col-md-5'>
+      {{ desser.name }}
+    </div>
+    <div class='col-md-5'>
+      {{ desser.price }}
+    </div>
+    <div class='col-md-2'>
+      <button type="button" class="btn btn-danger btn-xs" class='remove-btn'>Remove</button>
+    </div>
+  </div>
+{% endfor %}
+
+<h3>Drinks</h3>
+<button type="button" class="btn btn-succcess btn-sm" id="addDrink">Add</button>
+<div class='row* form-group' id='drinkInput' >
+    <div class='col-md-6'>
+      <input type='text' name='p_name'>
+    </div>
+    <div class='col-md-6'>
+      <input type='text' ,name='price'>
+    </div>
+</div>
+{% for drink in products[3] %}
+  <div class='row'>
+    <div class='id' style='display:none'>{{ drink.id }}</div>
+    <div class='col-md-5'>
+      {{ drink.name }}
+    </div>
+    <div class='col-md-5'>
+      {{ drink.price }}
+    </div>
+    <div class='col-md-2'>
+      <button type="button" class="btn btn-danger btn-xs"  class='remove-btn'>Remove</button>
+    </div>
+  </div>
+{% endfor %}
+
+
+
+
+
+{% endif %}
+{% endblock body %}
+
+{% block javascripts %}
+<script>
+  function addProd($input, $type){
+    $($input).css("visibility", "visible");
+    $(this).click(function(event){
+      event.preventDefault();
+      var data = $($input).serialize();
+      data = data + "&type="+ $type;
+      $.ajax({
+        method : "POST"
+        url: "/addproduct"
+        data : data
+      }).done(function(data){
+        $($input).css("visibility", "visible");
+        location.reload();
+      });
+    });
+  }
+
+  $(".form-group").each(function(){
+    $(this).css("visibility", "hidden");
+  });
+  $('#addEntry').click(addProd($("#entryInput"), 1));
+  $('#addDish').click(addProd($("#dishInput"), 2));
+  $('#addDessert').click(addProd($('#dessertInput'), 3));
+  $('#addDrink').click(addProd($('#drinkInput'), 4));
+
+  $('.remove-btn').click(function(){
+    var id_prod = $(this).parent().siblings('.id').text();
+    $.ajax({
+      method : "POST"
+      url: "/delproduct"
+      data : id_prod
+    }).done(function(data){
+      location.reload();
+    });
+  });
+
+</script>
+{% endblock javascripts %}

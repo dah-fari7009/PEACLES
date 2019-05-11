@@ -70,7 +70,7 @@ class RestaurantRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
         ->leftjoin('r.products','p')
         ->addSelect('p')
-        -andWhere('r.type = :type')
+        ->andWhere('p.type = :type')
         ->setParameter('type',$type)
         ->getQuery()
         ->getResult();

@@ -22,14 +22,10 @@ class UserActionController extends AbstractController{
         $pic = new Picture();
         $form = $this->createForm(PictureType::class, $pic);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
             $file = $pic->getImgUrl();
-
             $fileName = $fileHandler->upload($file);
-
             // Move the file to the images directory
             try {
                 $file->move(
@@ -40,12 +36,9 @@ class UserActionController extends AbstractController{
                 // ... handle exception if something happens during file upload
             }
             $pic->setImgUrl($fileName);
-
             // ... persist the $pic variable or any other work
-
             return $this->redirect($this->generateUrl('profile'));
         }
-
         return $this->render('form/upload_pic.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -69,9 +62,11 @@ class UserActionController extends AbstractController{
       */
 
       public function change_pp(Request $request){
-        $new = $request->getContent();
-        $file = $new->getImgUrl();
-        $fileName = $fileHandler->upload($file);
+        $new = $request->files->all();
+        var_dump($new);
+        var_dump($request);
+        //$file = $new->getImgUrl();
+        /*$fileName = $fileHandler->upload($file);
         echo($filename);
         try {
             $file->move(
@@ -87,7 +82,7 @@ class UserActionController extends AbstractController{
         echo($filename);
         $usr.setProfilePic($filename);
         $em->persist($usr);
-        $em->flush();
+        $em->flush();*/
         return $this->render('page/profile.html.twig');
       }
 

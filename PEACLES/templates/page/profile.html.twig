@@ -7,27 +7,35 @@
 
 {% if is_granted('ROLE_RESTO') %}
 
-<div class='row'>
-  <img  class='img-circle' width="300" height="300" src="{{ app.user.profilepic }}" alt="Four ow four alala">
-  <form id="imgUploader"  enctype="multipart/form-data" action="/change_pp" method="post">
-    <button type="submit" class="btn btn-warning" id="upfile1">Change PP</button>
-    <input type="file" id="file1"  data-id="newpp" name="new_pp" />
-</form>
-  <p class="h1"> {{ app.user.username }} </p>
+<div class='row' style='margin-top : 5%;'>
+
+  <div class='col-md-4'>
+    <p class="h1"> {{ app.user.username }}</p>
+    <img  class='img img-circle' src="{{ app.user.profilepic }}" alt="Four ow four alala" style="height : 65%; width : 65%; border: 1px solid #ddd; border-radius: 50%; margin-top: 5%; margin-bottom : 5%;">
+    <div class='row'>
+        <form action="/change_pp" method="post" id="imgUploader">
+          <input type="file" id="file1"  data-id="newpp" name="newpp" style="display:none" onchange="this.form.submit();"/>
+          <button type="submit" class="btn btn-warning btn-sm" id="upfile1">Change PP</button>
+        </form>
+        <a href="/modify" class="btn btn-primary btn-sm">Modify the profile</a>
+    </div>
+  </div>
+  <div class='col-md-8'>
+    <br>
+    <p class="h3"> <u>Address</u> : {{ app.user.address }}</p>
+    <br><br>
+    <p class="h3"> <u>Phone number</u> :{{ app.user.phone }} </p>
+
+
+  </div>
 </div>
-<a href="/modify" class="btn btn-primary btn-sm">Modify the profile</a>
+<p class="h3" style="margin-top : 2%; margin-left : 10%; margin-right: 10%"> {{ app.user.bio }} 
+</p>
 
-<p class="h3"> {{ app.user.phone }} </p>
-<p class="h3"> {{ app.user.address }} </p>
 
-<p class="h3"> {{ app.user.bio }} </p>
 
 {% endif %}
-
-{% if is_granted('ROLE_CLIENT') %}
-  {% do render('form/modify.html.twig') %}
-
-{% endif %}
+s
 {% endblock %}
 {% block javascripts %}
 <style>
@@ -79,5 +87,4 @@ $(document).ready(function(){
       
 
 </script>
-
 {% endblock %}
