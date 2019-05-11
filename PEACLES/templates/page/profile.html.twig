@@ -1,58 +1,90 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %} {#{{ app.user.username }}#}Username's profile {% endblock %}
+{% block title %} {{ app.user.username }}'s profile {% endblock %}
 
 {% block body %}
 
-{#{% if is_granted('ROLE_RESTO') %}#}
+{% if is_granted('ROLE_RESTO') %}
 
 <div class='row' style='margin-top : 5%;'>
 
   <div class='col-md-4'>
-    <p class="h1"> {#{{ app.user.username }}  #}Username </p>
-    <img  class='img img-circle' src="{#{{ app.user.profile_pic }}#}{{ asset('images/resto_icon.png') }}" alt="Four ow four alala" style="height : 65%; width : 65%; border: 1px solid #ddd; border-radius: 50%; margin-top: 5%; margin-bottom : 5%;">
+    <p class="h1"> {{ app.user.username }}</p>
+    <img  class='img img-circle' src="{{ app.user.profilepic }}" alt="Four ow four alala" style="height : 65%; width : 65%; border: 1px solid #ddd; border-radius: 50%; margin-top: 5%; margin-bottom : 5%;">
     <div class='row'>
-        <button type="button" class="btn btn-warning btn-sm" id="upfile1">Change PP</button>
-        <form action="/change_pp" method="post">
-          <input type="file" id="file1"  data-id="newpp" name="file1" style="display:none" onchange="this.form.submit();"/>
+        <form action="/change_pp" method="post" id="imgUploader">
+          <input type="file" id="file1"  data-id="newpp" name="newpp" style="display:none" onchange="this.form.submit();"/>
+          <button type="submit" class="btn btn-warning btn-sm" id="upfile1">Change PP</button>
         </form>
         <a href="/modify" class="btn btn-primary btn-sm">Modify the profile</a>
     </div>
   </div>
   <div class='col-md-8'>
     <br>
-    <p class="h3"> <u>Address</u> : {#{{ app.user.address }}#} 123 chez Faridah 75000 District des Mamans</p>
+    <p class="h3"> <u>Address</u> : {{ app.user.address }}</p>
     <br><br>
-    <p class="h3"> <u>Phone number</u> : {#{{ app.user.phone }} #} 0123456789</p>
+    <p class="h3"> <u>Phone number</u> :{{ app.user.phone }} </p>
 
 
   </div>
 </div>
-<p class="h3" style="margin-top : 2%; margin-left : 10%; margin-right: 10%"> {#{{ app.user.bio }}#} The first CSS block is similar to the code in Example 1.
- In addition, we have added what should happen when a user hovers over one of the images.
-In this case we want the image to NOT be transparent when the user hovers over it.
-The CSS for this
+<p class="h3" style="margin-top : 2%; margin-left : 10%; margin-right: 10%"> {{ app.user.bio }} 
 </p>
 
 
 
-{#{% endif %}#}
-
-{#{% if is_granted('ROLE_CLIENT') %}#}
-
-
-{#{% do render('form/modify.html.twig') %}#}
-
-{#{% endif %}#}
-
+{% endif %}
+s
 {% endblock %}
-
-
 {% block javascripts %}
+<style>
+    #imgUploader input[type="file"]{
+      position:absolute;
+      margin-top: 3px;
+      margin-left:3px;
+      height:1px;
+      width:1px;
+      z-index:-5;
+  }
+</style>
 <script>
-  $("#upfile1").click(function () {
-    $("#file1").trigger('click');
-  });
+$(document).ready(function(){ 
+  //$("form input").click();
+  $("#imgUploader").submit(function(event){
+      event.preventDefault();
+      $("#file1").click();
+      $("#file1").change(function(event){
+        var formData=new FormData();
+        var file=$(event.target).prop('files')[0];
+      formData.append("imgUploader[file]",file,file.name);
+      console.log(file);
+      $.ajax({
+        method:"POST",
+        url:"/change_pp",
+        data:formData,
+        processData:false,
+        contentType:false,
+        xhr:function(){
+          var xhr=new XMLHttpRequest();
+          return xhr;
+        }
+      }).done(function(event){
+        window.location.reload();
+      })
+    })
+      })
+      
+  })
+  /*$("#upfile1").click(function(event){
+   
+    $("#file1").change(function(event){
+      console.log("ici");
+      console.log($("#file1").prop('files')[0]);
+      
+  })
+})*/
+      
+
 </script>
 {% endblock %}

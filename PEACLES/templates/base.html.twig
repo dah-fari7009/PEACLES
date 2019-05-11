@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width-device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>{% block title %}Default title{% endblock %}</title>
         {% block stylesheets %}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -29,16 +29,16 @@
             </div>
             <div class="row-mx-1">
               {% if is_granted('ROLE_USER') %}
-                {% if is_granted('ROLE_CLIENT')%}
-                  <a href="{{ path('book') }}"> Book a restaurant </a>
-                {% else %}
-                {% endif %}
                 <div class="dropdown">
                     <button class="btn btn-secondary-xs dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='background:transparent;'>
                       <img src="{#{{ app.user.profile_pic }}#}{{ asset("images/resto_icon.png") }}" style='height:5%; width: 5%; border-radius : 50%;'>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      {% if is_granted('ROLE_RESTO') %}
                       <a class="dropdown-item" href="{{ path('profile') }}">My profile </a>
+                      {% else %}
+                      <a class="dropdown-item" href="{{ path('modify') }}">My infos </a>
+                      {% endif %}
                       <a class="dropdown-item" href="{{ path('reservation') }}">My reservations</a>
                       <a href="/logout">Log out </a>
                     </div>

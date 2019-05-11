@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Restaurant;
+use App\Repository\RestaurantRepository;
+
+use App\Entity\Product;
 
 class ProductController extends AbstractController
 {
@@ -14,12 +18,12 @@ class ProductController extends AbstractController
      */
     public function index()
     {
-        $restoid = $this->getUser()->getUsername();
+        $restoid = $this->getUser()->getId();
         $menu = array();
         $em = $this->getDoctrine()->getManager();
-        $rest = $em->getRepository(Restaurant::class).findBy($restoid);
+        $rest = $em->getRepository(Restaurant::class);
         for ($i = 1; $i <= 4; $i++) {
-          array_push($menu, $menu.getProductsByType($i));
+          array_push($menu, $rest->getProductsByType($i));
         }
         return $this->render('page/menu.html.twig', [
             'products' => $menu,

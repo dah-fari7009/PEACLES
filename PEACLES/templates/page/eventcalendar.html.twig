@@ -2,30 +2,82 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}DEFRGTHJ{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        form.res input[type="text"]
+        {
+            background: transparent;
+            border: none;
+        }
+    </style>
+{% endblock %}
 {% block body %}
+{% block calendar %}
 <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5 display">
             <p> TIMES SCHEDULED</p>
-    
+            <table id="table_res"> 
+                <tbody>    
+                </tbody>
+
+            </table>
+            
         </div>
-        <div class="col-md-7">
+        <div class="col-md-7" style="background-color:grey">
             <p> SELECT DATE </p>
-            {{ include('page/monthcalendar.html.twig', {'start': 1,'month':5,'year':2018} )}}
+            <div id="datepicker" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    {{ include('page/monthcalendar.html.twig', {'start': "today"|date("d"),'month':"today"|date("m"),'year':"today"|date("Y")} )}}
+                    {{ include('page/monthcalendar.html.twig', {'start': 1,'month':"tomorrow"|date("m"),'year':"tomorrow"|date("Y") } )}}
+                    {{ include('page/monthcalendar.html.twig', {'start': 1,'month':"tomorrow"|date("m")+1,'year':"tomorrow +1"|date("Y") } )}}
+                </div>
+                <a class="carousel-control-prev" href="#datepicker" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="carousel-control-next" href="#datepicker" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                </a>
+            </div>
         </div>
     </div>
+    {% endblock %}
+    {% block time %}
     <div class="row">
-        <div class="col-md-7">
-    
+        <div class="col-md-2">
+            <br>
+            <p> SELECT TIME </p>
         </div>
-        <div class="col-md-5">
-    
-        </div>
-    </div>
+            <div class="col-md-2 offset-md-5">
+                <br>
+                    <form id="time"> 
+                        <input type="time" name="start" min="0:00" max="23:00" >
+                        <input type="time" name="end" min="1:00" max="23:59" >
+                        <input type="hidden" name="date" value="">
+                        <input type="submit" id="add" value="Add">
+                    </form>
+
+            </div>
+                    
+    </div> 
+    {% endblock %}
+    {% block submit %}
     <div class="row">
         <div class="col-sm-2 offset-sm-10">
-            <input type="submit" value="Done">
+            <button id="done"> Done </button>
         </div>
     </div>
+    {% endblock %}
+{% endblock %}
 
-{% endblock body %}
-        
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/calendar.js') }}" ></script>
+<script>
+    $('#datepicker').carousel({
+        interval:false
+    });
+</script>
+{% endblock %}      

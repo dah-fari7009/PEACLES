@@ -84,25 +84,25 @@ class FormController extends AbstractController
     }
 
     /**
-     * @Route("/modify")
+     * @Route("/modify",name="modify")
      */
 
      public function modify(Request $request){
        $old = $this->getUser();
        if($old instanceof Client){
          $em = $this->getDoctrine()->getManager();
-         $user = $em->getRepository(Client::class).findby($old.getId());
-         $form=createForm(ClientType::class, $user);
+         $user = $em->getRepository(Client::class)->findOneById($old->getId());
+         $form=$this->createForm(ClientType::class, $user);
          $form->handleRequest($request);
          if($form->isSubmitted() && $form->isValid()){
              $em->persist($user);
              $em->flush();
-             return $guardHandler->authenticateUserAndHandleSuccess(
+             /*return $guardHandler->authenticateUserAndHandleSuccess(
                  $user,
                  $request,
                  $authenticator,
                  'main'
-             );
+             );*/
          }
          return $this->render('form/modify.html.twig',[
              'form' => $form->createView(),
@@ -110,25 +110,32 @@ class FormController extends AbstractController
        }
        if($old instanceof Restaurant){
          $em = $this->getDoctrine()->getManager();
-         $user = $em->getRepository(Client::class).findby($old.getId());
-         $form=createForm(RestoType::class, $user);
-         $form->get('email')->setData($user.getEmail());
+         $user = $em->getRepository(Restaurant::class)->findOneById($old->getId());
+         $form=$this->createForm(RestoType::class, $user);
+         $form->get('email')->setData($user->getEmail());
          $form->handleRequest($request);
          if($form->isSubmitted() && $form->isValid()){
              $em = $this->getDoctrine()->getManager();
              $em->persist($user);
              $em->flush();
-             return $guardHandler->authenticateUserAndHandleSuccess(
+             /*return $guardHandler->authenticateUserAndHandleSuccess(
                  $user,
                  $request,
                  $authenticator,
                  'main'
-             );
+             );*/
          }
          return $this->render('form/modify.html.twig',[
              'form' => $form->createView(),
          ]);
        }
 
+     }
+
+     /**
+      * @Route("/setup",name="setup")
+      */
+     public function setup(Request $request){
+         return $this->render('page/eventcalendar.html.twig');
      }
   }

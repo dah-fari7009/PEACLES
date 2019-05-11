@@ -1,0 +1,12 @@
+{% for res in reservations %}
+                <tr style="border-bottom:solid 1px black">
+                    <td>
+                        <form class='res' method"post" action="/rm_avail">
+                            <input type="hidden" name="id" value="{{ res.id }}">
+                            <input type="text" value="{{ res.date|date("Y-m-d") }}" name="rdate"><br>  
+                            <input type="text" value="{{ res.start|date("H:i:s") }}" name="rstart"><input type="text" value="{{ res.end|date("H:i:s") }}" name="rend">
+                            {% if is_granted('ROLE_RESTO') %}<input type='submit' value='X' formmethod="post">{% endif %}
+                        </form> 
+                    </td>   
+                </tr>
+{% endfor %}

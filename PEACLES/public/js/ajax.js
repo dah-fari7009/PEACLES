@@ -4,6 +4,10 @@ $("#search-result").on("click","#search-result a",function(req,res){
     window.location.replace($(event.target).attr("href"))
 })
 
+$(".option").click(function(event){
+    $("#search").html($(event).target.text());
+})
+
 /*$("#search").autocomplete({
     source:function(request,response){
 

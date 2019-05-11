@@ -66,6 +66,16 @@ class RestaurantRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getProductsByType($type){
+        return $this->createQueryBuilder('r')
+        ->leftjoin('r.products','p')
+        ->addSelect('p')
+        ->andWhere('p.type = :type')
+        ->setParameter('type',$type)
+        ->getQuery()
+        ->getResult();
+    }
+
     public function searchMultiple($keys)
     {
         $query=$this->createQueryBuilder('r')

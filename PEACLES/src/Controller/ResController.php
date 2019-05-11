@@ -25,7 +25,7 @@ class ResController extends AbstractController{
      {
          $past=$this->get_history();
          $future=$this->get_future();
-         return $this->render("page/book.html.twig",["past" => $past, "future" => $future ]);
+         return $this->render("page/history.html.twig",["past" => $past, "future" => $future ]);
      }
 
      
