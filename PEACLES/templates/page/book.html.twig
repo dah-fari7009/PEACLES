@@ -1,8 +1,20 @@
 {% extends eventcalendar.html.twig %}
 {% block title %}
+    Book !
+{% endblock %}
+{% block stylesheets %}
+    {{ parent () }}
+    <style>
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+        }
+    </style>
+    
 {% endblock %}
 {% block body %}
-    {% if now-app.user.birthday< resto.min_age}
+   {# {% if now-app.user.birthday< resto.min_age %}#}
 {% block calendar %}
     {{ parent () }}
 {% endblock %}
@@ -11,15 +23,25 @@
         <div class="col-md-3"> SELECT GUEST </div>
         <div class="offset-md-4 col-md-5"> 
             <p> 
-                <button id="minus"> {{ app.user.min_seats }} </button>
-                <span id="people">1</span>
-                <button id="plus">+</button>
+                <button id="minus" data-min="{{ resto.min_seats }}"> - </button>
+                <input id="people" type="number" value="{{ resto.min_seats }}">
+                <button id="plus" data-max="{{ resto.max_seats }}"> + </button>
             </p>
         </div>
     </div>
 {% endblock %}
+{% block comment %}
+    <div class="row">
+        <label for="cment">Leave a comment : </label>
+        <input type="textarea" placeholder="Anything in particular ?" id="cment">
+    </div>
+{% endblock %}
 {% block submit %}
-    {{ parent () }}
+    <div class="row">
+            <div class="col-sm-2 offset-sm-10">
+                <button id="book"> Done </button>
+            </div>
+        </div>
 {% endblock %}
 {% endblock %}
 {% block javascripts %}
@@ -27,15 +49,32 @@
     <script>
         $("#minus").click(function(event){
             //convertir en int ici
-            if($("#people").val()> {{ resto.min_seats }}) 
-                $("#people").val($('#people').text()-1);
+            if($("#people").val()> $("#minus").data('min')) 
+                $("#people").val($('#people').val()-1);
 
         });
         $("#plus").click(function(event){
             //convertir en int ici
-            if($("#people").val()< {{ resto.user_max_seats }}) 
-                $("#people").val($('#people').text()+1);
+            if($("#people").val()< $('#plus').data('max')) 
+                $("#people").val($('#people').val()+1);
 
         });
+
+        $(".res").click(function(event){
+            $(event.target).attr("id","selected");
+        })
+        $("#book").click(function(event){
+            var data=$(".res #selected").serialize();
+            $(".res #selected").css({
+                "background-color":"red"
+            })
+            $.ajax({
+                method:"POST",
+                url:"/make_r",
+                data:data+"&info_text="+$("#cment").val()+"&people="+$("#people").val()
+            }).done(function(data){
+                //fermer la popup
+            })
+        })
     </script>
 {% endblock %}

@@ -2,12 +2,27 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}DEFRGTHJ{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        form.res input[type="text"]
+        {
+            background: transparent;
+            border: none;
+        }
+    </style>
+{% endblock %}
 {% block body %}
 {% block calendar %}
 <div class="row">
         <div class="col-md-5 display">
             <p> TIMES SCHEDULED</p>
-    
+            <table id="table_res"> 
+                <tbody>    
+                </tbody>
+
+            </table>
+            
         </div>
         <div class="col-md-7" style="background-color:grey">
             <p> SELECT DATE </p>
@@ -37,30 +52,29 @@
         </div>
             <div class="col-md-2 offset-md-5">
                 <br>
-                <p>
                     <form id="time"> 
-                    <input type="time" name="start" min="0:00" max="23:00" required>
-                    <input type="time" name="end" min="1:00" max="23:59" required>
-                    <input type="hidden" value="">
-                    <input type="submit" id="add" value="Add">
+                        <input type="time" name="start" min="0:00" max="23:00" >
+                        <input type="time" name="end" min="1:00" max="23:59" >
+                        <input type="hidden" name="date" value="">
+                        <input type="submit" id="add" value="Add">
                     </form>
-                </p>
 
             </div>
                     
     </div> 
+    {% endblock %}
     {% block submit %}
     <div class="row">
         <div class="col-sm-2 offset-sm-10">
-            <button> Done </button>
+            <button id="done"> Done </button>
         </div>
     </div>
     {% endblock %}
-{% endblock body %}
+{% endblock %}
+
 {% block javascripts %}
 {{ parent() }}
-<script type="text/javascript" src="http://www.datejs.com/build/date.js"></script>
-<script src="{{ asset('js/calendar.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}" ></script>
 <script>
     $('#datepicker').carousel({
         interval:false

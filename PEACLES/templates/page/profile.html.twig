@@ -8,11 +8,11 @@
 {% if is_granted('ROLE_RESTO') %}
 
 <div class='row'>
-  <img  class='img-circle' width="300" height="300" src="{{ app.user.profile_pic }}" alt="Four ow four alala">
-  <button type="button" class="btn btn-warning" id="upfile1">Change PP</button>
-  <form action="/change_pp" method="post">
-    <input type="file" id="file1"  data-id="newpp" name="file1" style="display:none" onchange="this.form.submit();"/>
-  </form>
+  <img  class='img-circle' width="300" height="300" src="{{ app.user.profilepic }}" alt="Four ow four alala">
+  <form id="imgUploader"  enctype="multipart/form-data" action="/change_pp" method="post">
+    <button type="submit" class="btn btn-warning" id="upfile1">Change PP</button>
+    <input type="file" id="file1"  data-id="newpp" name="new_pp" />
+</form>
   <p class="h1"> {{ app.user.username }} </p>
 </div>
 <a href="/modify" class="btn btn-primary btn-sm">Modify the profile</a>
@@ -25,18 +25,59 @@
 {% endif %}
 
 {% if is_granted('ROLE_CLIENT') %}
-
-
-{% do render('form/modify.html.twig') %}
+  {% do render('form/modify.html.twig') %}
 
 {% endif %}
-
-{% block javascripts %}
-<script>
-  $("#upfile1").click(function () {
-    $("#file1").trigger('click');
-  });
-</script>
 {% endblock %}
+{% block javascripts %}
+<style>
+    #imgUploader input[type="file"]{
+      position:absolute;
+      margin-top: 3px;
+      margin-left:3px;
+      height:1px;
+      width:1px;
+      z-index:-5;
+  }
+</style>
+<script>
+$(document).ready(function(){ 
+  //$("form input").click();
+  $("#imgUploader").submit(function(event){
+      event.preventDefault();
+      $("#file1").click();
+      $("#file1").change(function(event){
+        var formData=new FormData();
+        var file=$(event.target).prop('files')[0];
+      formData.append("imgUploader[file]",file,file.name);
+      console.log(file);
+      $.ajax({
+        method:"POST",
+        url:"/change_pp",
+        data:formData,
+        processData:false,
+        contentType:false,
+        xhr:function(){
+          var xhr=new XMLHttpRequest();
+          return xhr;
+        }
+      }).done(function(event){
+        window.location.reload();
+      })
+    })
+      })
+      
+  })
+  /*$("#upfile1").click(function(event){
+   
+    $("#file1").change(function(event){
+      console.log("ici");
+      console.log($("#file1").prop('files')[0]);
+      
+  })
+})*/
+      
+
+</script>
 
 {% endblock %}

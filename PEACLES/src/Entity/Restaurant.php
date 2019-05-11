@@ -33,10 +33,6 @@ class Restaurant extends User
      */
     private $max_seats;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $price_range;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="id_resto")
