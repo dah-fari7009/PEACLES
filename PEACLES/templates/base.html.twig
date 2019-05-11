@@ -27,7 +27,7 @@
                 <img   src=" {{ asset('images/logo.png') }}" alt="Logo" href="/" style="height : 5%; width : 5%">
               </a>
             </div>
-            <div class="row-mx">
+            <div class="row-mx-1">
               {% if is_granted('ROLE_USER') %}
                 {% if is_granted('ROLE_CLIENT')%}
                   <a href="{{ path('book') }}"> Book a restaurant </a>
