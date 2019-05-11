@@ -28,7 +28,7 @@ function required(fields){//Checks whether every field was filled
 }
 
 function appendToTable(res){
-    $("#table_res tbody").append("<tr style=\"border-bottom:solid 1px black\"><td><form class='res'><input type=\"hidden\" name=\"id\" value=\""+res.id+"\"><input type=\"text\" value=\""+res.date+"\" name=\"date\"><br>  <input type=\"text\" value=\""+res.start+" name=\"start\"><input type=\"text\" value=\""+res.end+" name=\"end\">"+((res.resto)?"<input type='submit' value='X' >":"")+"</form> </td> </tr>");
+    $("#table_res tbody").append("<tr style=\"border-bottom:solid 1px black\"><td><form class=\"res\"><input type=\"hidden\" name=\"id\" value=\""+res.id+"\"><input type=\"text\" value=\""+res.date+"\" name=\"date\"><br><input type=\"text\" value=\""+res.start+"\" name=\"start\"><input type=\"text\" value=\""+res.end+"\" name=\"end\">"+((res.resto)?"<input type='submit' value='X' class=\"sub_res\">":"")+"</form> </td> </tr>");
                
 }
 
@@ -57,30 +57,25 @@ $(document).ready(function(){
             //$(".display").empty();
             if(data){
                 $("#table_res tbody").empty();
-                $.each(data,function(res){
-                    appendToTable(res);
+                $.each(data,function(res,value){
+                    console.log(value);
+                    appendToTable(value);
                 })
                 console.log("ici");
-                
-                //$("#table_res tbody").html(data.response);
-            //si resto on cancel, si user on met des radios buttons
-                //var json=$.parseJSON(data);
-                //document.documentElement.innerHTML=data.response;
-
             }
             //else $("display").html("Nothing set");
         })
             
     });
 
-    $(".res").submit(function(event){
-        event.stopImmediatePropagation();
-        console.log("laaaaaaa");
+    $(document).on("submit",".res",function(event){
+        event.preventDefault();
+        console.log("laaaaaasa");
         var data=$(event.target).serialize();
         console.log(data);
         $.post({
             url:"/rm_avail",
-            data:"id="+data
+            data:data
         }).done(function(data){
             console.log($(event.target));
             $(event.target).parents("tr").remove();

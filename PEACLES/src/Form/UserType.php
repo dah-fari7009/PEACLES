@@ -49,7 +49,7 @@ class UserType extends AbstractType
               'constraints' => [
                 new Length([
                   'max' => 200,
-                  'maxMessage' => "Bio must be  shorter than 200 characters"
+                  'maxMessage' => "Bio must be shorter than 200 characters"
                 ]),
               ]
             ])

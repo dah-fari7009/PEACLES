@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Entity\Reservation;
+use App\Repository\ReservationRepository;
 
 
 class RestoActionController extends UserActionController{
@@ -38,6 +39,12 @@ class RestoActionController extends UserActionController{
       return $this->render('page/profile.html.twig');
     }
 
+    public static function getPrintable(Reservation $disp)
+    {
+      $res=['date'=>$disp->getDate()->format('Y-m-d'),'start'=>$disp->getStart()->format('H:i'),'end'=>$disp->getEnd()->format('H:i'),'id'=>$disp->getId(),'resto'=>true];
+      return $res;
+    }
+
     /**
      * @Route("/add_avail",name="add_avail",methods={"POST"})
      */
@@ -52,7 +59,7 @@ class RestoActionController extends UserActionController{
         $em = $this->getDoctrine()->getManager();
         $em->persist($disp);
         $em->flush();
-        $res=['date'=>$disp->getDate()->format('Y-m-d'),'start'=>$disp->getStart()->format('H:i'),'end'=>$disp->getEnd()->format('H:i'),'id'=>$disp->getId(),'resto'=>true];
+        $res=$this->getPrintable($disp);
         return $this->json($res,200,[],[]);
      }
 
@@ -61,7 +68,8 @@ class RestoActionController extends UserActionController{
        */
      public function removeAvailability(Request $request){
         $em=$this->getDoctrine()->getManager();
-        $em->remove($em->getRepository(Reservation::class)->find($request->request->get('id')));
+        $res=$em->getRepository(Reservation::class)->findOneBy(['id'=>$request->request->get('id')]);
+        $em->remove($res);
         $em->flush();
         $response=array();
         return new JsonResponse($response);
@@ -75,8 +83,13 @@ class RestoActionController extends UserActionController{
       $em = $this->getDoctrine()->getManager();
       $date=new \DateTime($request->request->get('date'));
       //$date=\DateTime::createFromFormat("Y-m-D",$request->request->get('date'));
-      $res=$em->getRepository(Reservation::class)->findBy(["date"=>$date,"id_resto"=>$this->getUser()->getId()]);
+      $rep=$em->getRepository(Reservation::class)->findBy(["date"=>$date,"id_resto"=>$this->getUser()->getId()]);
       //return $this->render("page/eventcalendar.html.twig",[reservation => $res]);
+      $res=array();
+      foreach($rep as $disp){
+         $elem=$this->getPrintable($disp);
+         array_push($res,$elem);
+      }
       return $this->json($res,200,[],['groups' => ['group1']]);
       /*$response = array(
          "code" =>"200",

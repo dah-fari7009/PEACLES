@@ -62,6 +62,7 @@ class UserActionController extends AbstractController{
       */
 
       public function change_pp(Request $request){
+          echo("test");
         $new = $request->files->all();
         var_dump($new);
         var_dump($request);
