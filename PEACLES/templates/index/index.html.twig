@@ -38,6 +38,7 @@
       function sendReq(position) {
         var lat = position.coords.latitude;
         var long = position.coords.longitude;
+        
         $.post({
           url : "/closest",
           longitude : long,

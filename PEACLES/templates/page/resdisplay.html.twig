@@ -9,5 +9,9 @@
     </div>
     <div class="col-sm-3 border-left">
         {#Ici pour la note et les avis#}
+        <p> Around  {{ price }} per dish</p>
+        {% if distance %}
+            <p> {{ distance }} kms from you </p>
+        {% endif %}
     </div>
 </div>
