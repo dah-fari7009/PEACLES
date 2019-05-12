@@ -93,6 +93,45 @@ class RestoActionController extends UserActionController{
          //return $this->render("page/eventcalendar.html.twig");
      }
 
+     /**
+      * @Route("/specs",name="specs")
+      */
+
+      public function showSpecs(Request $request)
+      {
+          $em = $this->getDoctrine()->getManager();
+          $specs = $em->getRepository(Specialty::class)->findAll();
+          return $this.render("page/specs.html.twig", ["specs" => $specs]);
+      }
+
+      /**addSpecialty
+       * @Route("/addspecs",name="addspecs", methods={"POST"})
+       */
+
+       public function setSpecs(Request $request)
+       {
+           $rest = $this->getUser();
+           $em = $this->getDoctrine()->getManager();
+           $input = $request->request->get('spec');
+
+           $min_age = $request->request->get("min_age");
+           $min = $request->request->get("min");
+           $max = $request->request->get("max");
+           $rest->setMinAge($min_age);
+           $rest->setMinSeats($min);
+           $rest->setMaxSeats($max);
+
+           foreach($input as $elem){
+             $s = $em->getRepository(Specialty::class)->find($elem);
+             $rest->addSpecialty($s);
+           }
+           $em->persist($rest);
+           $em->flush();
+           return $this.render("page/profile.html.twig");
+       }
+
+
+
 
 
 

@@ -3,12 +3,9 @@
 {% block title %}PEACLES {% endblock %}
 {% block stylesheets %}
   {{ parent() }}
-  {#<style type="text/css">
-    body { background-image: url('../../images/pickles.jpg') !important; }
-  </style>#}
 {% endblock %}
 {% block body %}
-  <div class="jumbotron text-center" style='background: transparent;'>
+  <div class="jumbotron text-center" id="main" style='background: transparent;'>
       <h1>Main Page</h1>
       <p>Look for a restaurant </p>
       <form class="form-inline" method="get" action="{{ path('search')}}" >
@@ -19,6 +16,7 @@
           </div>
         </div>
       </form>
+      <button class="btn btn-warning btn-lg" id="geo" style="margin-top:2%">Near me</button>
       <div id="search-result">
 
       </div>
@@ -28,4 +26,25 @@
     {{ parent() }}
     <script src="https://c""dn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
     <script src="{{ asset('js/ajax.js') }}"></script>
+    <script>
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(sendReq);
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      }
+
+      function sendReq(position) {
+        var lat = position.coords.latitude;
+        var long = position.coords.longitude;
+        $.post({
+          url : "/closest",
+          longitude : long,
+          latitude : lat
+        });
+      }
+
+      $('#geo').click(getLocation());
+    </script>
   {% endblock %}
