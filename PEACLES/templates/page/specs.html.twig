@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title%} Choose you specialties {% endblock %}
+
+{% block body %}
+  <form id="specform "action="/addspecs">
+  <div class='row'>
+    {% for sp in specs %}
+      <div class='col-md-2'>
+        <label><input type="checkbox" name="spec" value="{{ sp.id }}" >{{ sp.cuisine }}</label>
+      </div>
+    {{% endfor %}}
+    </div>
+    <div class='row'>
+      Min age :<input type="number" name="min_age">
+      Min people : <input type="number" name="min">
+      Max people : <input type="number" name="max">
+      <input type="submit" class="button btn-danger btn-xs" >
+    <div>
+  </form>
+
+{% endblock %}
+{% block javascripts %}
+{% endblock %}
