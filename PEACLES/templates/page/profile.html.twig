@@ -29,10 +29,20 @@
 
   </div>
 </div>
-<p class="h3" style="margin-top : 2%; margin-left : 10%; margin-right: 10%"> {{ app.user.bio }} 
+<p class="h3" style="margin-top : 2%; margin-left : 10%; margin-right: 10%"> {{ app.user.bio }}
 </p>
 
+<ul class="nav nav-tabs">
+  <li class="nav-item" id="photos">
+    <div class="row">
+      
+    </div>
+  </li>
+  <li class="nav-item" id="menu">
 
+  </li>
+
+</ul>
 
 {% endif %}
 s
@@ -49,7 +59,7 @@ s
   }
 </style>
 <script>
-$(document).ready(function(){ 
+$(document).ready(function(){
   //$("form input").click();
   $("#imgUploader").submit(function(event){
       event.preventDefault();
@@ -74,17 +84,17 @@ $(document).ready(function(){
       })
     })
       })
-      
+
   })
   /*$("#upfile1").click(function(event){
-   
+
     $("#file1").change(function(event){
       console.log("ici");
       console.log($("#file1").prop('files')[0]);
-      
+
   })
 })*/
-      
+
 
 </script>
 {% endblock %}
