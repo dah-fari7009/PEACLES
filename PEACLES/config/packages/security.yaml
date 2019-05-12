@@ -38,9 +38,10 @@ security:
     access_control:
         - { path: ^/(signup|login), allow_if: "not has_role('ROLE_USER')" }
         # switch to IS_AUTHENTICATED_REMEMBERED if we use the remember me feature
-        #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/setup, roles: ROLE_RESTO }
         - { path: ^/search, roles: ROLE_CLIENT }
+        #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

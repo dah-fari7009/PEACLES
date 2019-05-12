@@ -66,9 +66,7 @@ class ClientActionController extends UserActionController{
     {
         $key= $request->request->get('key');
         $keys=explode(" ",$request->request->get('key'));
-        $spec=$this->getDoctrine()
-        ->getRepository(Specialty::class)
-         ->searchByCuisine($key);
+        $spec=[];
         $results=$this->getDoctrine()
             ->getRepository(Restaurant::class)
             ->searchMultiple($keys);

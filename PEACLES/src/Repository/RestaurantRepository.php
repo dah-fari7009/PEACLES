@@ -152,17 +152,13 @@ class RestaurantRepository extends ServiceEntityRepository
 
     public function findClosestRestos($long, $lat)
     {
-        $qb = $this->createQueryBuilder('r')
-            ->join('r.location', 'l')
-            ->addSelect('r')
-            ->addSelect('ST_Distance_Sphere(POINT(l.longitude,l.latitude),POINT(:long,:lat))/1000 as distance')
-            ->andWhere('distance < 15')
-            ->setParameter('long', $long)
-            ->setParameter('lat', $lat)
-            ->orderBy('distance', 'ASC')
-            ->getQuery();
-
-        return $qb->execute();
+        $em=$this->getEntityManager();
+        $qb="SELECT r.id,address,username,profile_pic,ST_DISTANCE_SPHERE(POINT(l.longitude,l.latitude),POINT(:long,:lat))/1000 as distance FROM restaurant r JOIN location ON location.id_resto=r.id WHERE distance <15 ORDER BY distance ASC ";
+        $stat=$em->getConnection()->prepare($qb);
+        $stat->bindValue('long',$long);
+        $stat->bindValue('lat',$lat);
+        $stat->execute();
+        return $stat->fetchAll();
 
     }
 

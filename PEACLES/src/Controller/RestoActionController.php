@@ -161,7 +161,7 @@ class RestoActionController extends UserActionController{
            }
            $em->persist($rest);
            $em->flush();
-           return $this.render("page/profile.html.twig");
+           return $this->render("page/profile.html.twig",["user"=>$rest]);
        }
 
 

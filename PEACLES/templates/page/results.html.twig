@@ -3,7 +3,7 @@
 
 {% block body %}
     {% for restaurant in results %}
-        {{ include('page/resdisplay.html.twig', {'resto': restaurant,"distance":distance,"price":price} )}}
+        {{ include('page/resdisplay.html.twig', {'resto': restaurant,"distance":null,"price":null} )}}
     {% endfor %}
 {% endblock %}
 {% block javascripts %}

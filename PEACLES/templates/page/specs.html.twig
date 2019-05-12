@@ -3,11 +3,11 @@
 What do you think you are the best at ? 
 {% endblock %}
 {% block body %}
-  <form id="specform" action="/addspecs">
+  <form id="specform" action="/addspecs" method="post">
   <div class='row'>
     {% for sp in specs %}
       <div class='col-md-2'>
-        <label><input type="checkbox" name="spec" value="{{ sp.id }}" >{{ sp.cuisine }}</label>
+        <label><input type="checkbox" name="spec[]" value="{{ sp.id }}" >{{ sp.cuisine }}</label>
       </div>
     {% endfor %}
     </div>

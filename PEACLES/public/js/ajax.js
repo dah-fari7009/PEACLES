@@ -1,5 +1,5 @@
 $(document).ready(function(){
-$("#search-result").on("click","#search-result a",function(req,res){
+$(document).on("click","#search-result a",function(req,res){
     console.log($(event.target).attr("href"))
     window.location.replace($(event.target).attr("href"))
 })
@@ -63,7 +63,7 @@ focusout:function(){
     },100)  
 },
 focusin:function(){
-    $("#search-result").show();
+    if($("#search").val()) $("#search-result").show();
 }
 
 });
