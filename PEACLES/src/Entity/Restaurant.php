@@ -53,6 +53,11 @@ class Restaurant extends User
      */
     private $products;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Location", mappedBy="id_resto", cascade={"persist", "remove"})
+     */
+    private $location;
+
     public function __construct()
     {
         parent::__construct();
@@ -219,6 +224,23 @@ class Restaurant extends User
             if ($product->getIdResto() === $this) {
                 $product->setIdResto(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(Location $location): self
+    {
+        $this->location = $location;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $location->getIdResto()) {
+            $location->setIdResto($this);
         }
 
         return $this;

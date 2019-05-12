@@ -12,6 +12,8 @@ use App\Entity\Reservation;
 use App\Repository\ReservationRepository;
 use App\Entity\Restaurant;
 use App\Entity\RestaurantRepository;
+use App\Entity\Specialty;
+use App\Entity\SpecialtyRepository;
 
 class RestoActionController extends UserActionController{
 
@@ -24,16 +26,16 @@ class RestoActionController extends UserActionController{
       $idRes = $request->request.get('id');
       $em = $this->getDoctrine()->getManager();
       $oldRes = $em->getRepository(Reservation::class).find($idRes);
-      $oldRes.setStatus(1);
+      $oldRes->setStatus(1);
 
       $newRes = new Reservation();
-      $newRes.setIdClient(null);
-      $newRes.setIdResto($oldRes.getIdResto());
-      $newRes.setDate($oldRes.getDate());
-      $newRes.setStart($oldRes.getStart());
-      $newRes.setEnd($oldRes.getEnd());
-      $newRes.setInfos(null);
-      $newRes.setStatus(0);
+      $newRes->setIdClient(null);
+      $newRes->setIdResto($oldRes.getIdResto());
+      $newRes->setDate($oldRes.getDate());
+      $newRes->setStart($oldRes.getStart());
+      $newRes->setEnd($oldRes.getEnd());
+      $newRes->setInfos(null);
+      $newRes->setStatus(0);
       $em->persist($oldRes);
       $em->persist($newRes);
       $em->flush();
@@ -133,10 +135,10 @@ class RestoActionController extends UserActionController{
       {
           $em = $this->getDoctrine()->getManager();
           $specs = $em->getRepository(Specialty::class)->findAll();
-          return $this.render("page/specs.html.twig", ["specs" => $specs]);
+          return $this->render("page/specs.html.twig", ["specs" => $specs]);
       }
 
-      /**addSpecialty
+      /**
        * @Route("/addspecs",name="addspecs", methods={"POST"})
        */
 

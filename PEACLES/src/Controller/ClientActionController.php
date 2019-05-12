@@ -92,8 +92,8 @@ class ClientActionController extends UserActionController{
     */
    public function searchCloseRestaurants(Request $request)
    {
-     $long= $request->request.get('longitude');
-     $lat= $request->request.get('latitude');
+     $long= $request->request->get('longitude');
+     $lat= $request->request->get('latitude');
      $em = $this->getDoctrine()->getManager();
      $res = $em->getRepository(Restaurant::class)->findClosestRestos($long, $lat);
      return $this->render("page/results.html.twig",["results" => $res]);
