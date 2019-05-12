@@ -7,7 +7,8 @@
 
 <h3>Entries</h3>
 <button type="button" class="btn btn-succcess btn-sm" id="addEntry">Add</button>
-<form class='row form-group' id='entryInput' >
+<div class='row form-group'>
+<form id='entryInput'>
     <div class='col-md-6'>
       <input type='text' name='p_name'>
     </div>
@@ -15,6 +16,7 @@
       <input type='text' name='price'>
     </div>
 </form>
+</div>
 
 
 {% for entry in products[0] %}
@@ -34,7 +36,8 @@
 
 <h3>Dishes</h3>
 <button type="button" class="btn btn-succcess btn-sm" id="addDish">Add</button>
-<form class='row form-group' id='dishInput' >
+<div class='row form-group' >
+<form id='dishInput'>
     <div class='col-md-6'>
       <input type='text' name='p_name'>
     </div>
@@ -42,6 +45,8 @@
       <input type='text' name='price'>
     </div>
 </form>
+</div>
+
 {% for dish in products[1] %}
   <div class='row'>
     <div class='id' style='display:none'>{{ dish.id }}</div>
@@ -59,7 +64,8 @@
 
 <h3>Desserts</h3>
 <button type="button" class="btn btn-succcess btn-sm" id="addDessert">Add</button>
-<form  class='row form-group' id='dessertInput' >
+<div class='row form-group'  >
+<form id='dessertInput'>
     <div class='col-md-6'>
       <input type='text' name='p_name'>
     </div>
@@ -67,6 +73,7 @@
       <input type='text' name='price'>
     </div>
 </form>
+</div>
 {% for des in products[2] %}
   <div class='row'>
     <div class='id' style='display:none'>{{ dessert.id }}</div>
@@ -84,13 +91,15 @@
 
 <h3>Drinks</h3>
 <button type="button" class="btn btn-succcess btn-sm" id="addDrink">Add</button>
-<div class='row* form-group' id='drinkInput' >
+<div class='row* form-group' >
+<form id='drinkInput' >
     <div class='col-md-6'>
       <input type='text' name='p_name'>
     </div>
     <div class='col-md-6'>
       <input type='text' ,name='price'>
     </div>
+</form>
 </div>
 {% for drink in products[3] %}
   <div class='row'>
@@ -117,7 +126,7 @@
 {% block javascripts %}
 <script>
   function addProd($input, $type){
-    $($input).css("visibility", "visible");
+    $($input).show();
     $(this).click(function(event){
       event.preventDefault();
       var data = $($input).serialize();
@@ -127,14 +136,14 @@
         url: "/addproduct"
         data : data
       }).done(function(data){
-        $($input).css("visibility", "visible");
+        $($input).show();
         location.reload();
       });
     });
   }
 
   $(".form-group").each(function(){
-    $(this).css("visibility", "hidden");
+    $(this).hide();
   });
   $('#addEntry').click(addProd($("#entryInput"), 1));
   $('#addDish').click(addProd($("#dishInput"), 2));

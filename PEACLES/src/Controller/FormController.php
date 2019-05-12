@@ -93,16 +93,11 @@ class FormController extends AbstractController
          $em = $this->getDoctrine()->getManager();
          $user = $em->getRepository(Client::class)->findOneById($old->getId());
          $form=$this->createForm(ClientType::class, $user);
+         $form->remove('password');
          $form->handleRequest($request);
          if($form->isSubmitted() && $form->isValid()){
              $em->persist($user);
              $em->flush();
-             /*return $guardHandler->authenticateUserAndHandleSuccess(
-                 $user,
-                 $request,
-                 $authenticator,
-                 'main'
-             );*/
          }
          return $this->render('form/modify.html.twig',[
              'form' => $form->createView(),
@@ -112,18 +107,13 @@ class FormController extends AbstractController
          $em = $this->getDoctrine()->getManager();
          $user = $em->getRepository(Restaurant::class)->findOneById($old->getId());
          $form=$this->createForm(RestoType::class, $user);
+         $form->remove('password');
          $form->get('email')->setData($user->getEmail());
          $form->handleRequest($request);
          if($form->isSubmitted() && $form->isValid()){
              $em = $this->getDoctrine()->getManager();
              $em->persist($user);
              $em->flush();
-             /*return $guardHandler->authenticateUserAndHandleSuccess(
-                 $user,
-                 $request,
-                 $authenticator,
-                 'main'
-             );*/
          }
          return $this->render('form/modify.html.twig',[
              'form' => $form->createView(),

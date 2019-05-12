@@ -4,11 +4,11 @@
 {% block title %}Sign Up{% endblock %}
 {% block body %}
 
-    <div class="row" style="margin-top : 5%">
+    <div class="row" style="margin-top : 2%">
       <div class="col-md-6">
         <div class='jumbotron text-center' style="background : transparent;">
           <a href=" {{ path('signupc') }}">
-            <p>Restaurant</p>
+            <h2 style='color : black;'><i>Restaurant</i></h2>
             <img src=" {{ asset('images/resto_icon.png') }}" alt="Resto icon" href=" {{ path('signupr') }}" style="height : 60%; width : 60%">
           </a>
         </div>
@@ -16,7 +16,7 @@
       <div class="col-md-6">
         <div class='jumbotron text-center' style="background : transparent;">
           <a href=" {{ path('signupc') }}">
-          <p>Client</p>
+          <h2 style='color : black;'><i>Client</i></h2>
           <img src=" {{ asset('images/client_icon.png') }}" alt="Client icon" href=" {{ path('signupc') }}" style="height : 60%; width : 60%">
           </a>
         </div>
