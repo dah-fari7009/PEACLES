@@ -10,6 +10,15 @@
             background: transparent;
             border: none;
         }
+        .carousel-control-prev,.carousel-control-next{
+            bottom:96%;
+        }
+        .carousel-control-prev{
+            left:27%;
+        }
+        .carousel-control-next{
+            right:30%;
+        }
     </style>
 {% endblock %}
 {% block body %}
@@ -29,8 +38,8 @@
             <div id="datepicker" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     {{ include('page/monthcalendar.html.twig', {'start': "today"|date("d"),'month':"today"|date("m"),'year':"today"|date("Y")} )}}
-                    {{ include('page/monthcalendar.html.twig', {'start': 1,'month':"tomorrow"|date("m"),'year':"tomorrow"|date("Y") } )}}
-                    {{ include('page/monthcalendar.html.twig', {'start': 1,'month':"tomorrow"|date("m")+1,'year':"tomorrow +1"|date("Y") } )}}
+                    {{ include('page/monthcalendar.html.twig', {'start': 1,'month':"tomorrow"|date("m")+1,'year':"tomorrow"|date("Y") } )}}
+                    {{ include('page/monthcalendar.html.twig', {'start': 1,'month':"tomorrow"|date("m")+2,'year':"tomorrow +1"|date("Y") } )}}
                 </div>
                 <a class="carousel-control-prev" href="#datepicker" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -75,5 +84,10 @@
 {% block javascripts %}
 {{ parent() }}
     <script src="{{ asset('js/calendar.js') }}" ></script>
+    <script>
+        $("#datepicker").carousel({
+            interval:false
+        })
+    </script>
 
 {% endblock %}      

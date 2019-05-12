@@ -17,7 +17,7 @@ class UserActionController extends AbstractController{
      * @Route("/upload",name="upload")
      */
 
-     public function uploadpicture(Request $request)
+     public function uploadpicture(Request $request, FileHandler $fileHandler)
      {
         $pic = new Picture();
         $form = $this->createForm(PictureType::class, $pic);
@@ -36,6 +36,10 @@ class UserActionController extends AbstractController{
                 // ... handle exception if something happens during file upload
             }
             $pic->setImgUrl($fileName);
+            $pic->setOwner($this->getUser());
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($pic);
+            $em->flush();
             // ... persist the $pic variable or any other work
             return $this->redirect($this->generateUrl('profile'));
         }
@@ -61,14 +65,12 @@ class UserActionController extends AbstractController{
       * @Route("/change_pp",name="changepp",methods={"POST"})
       */
 
-      public function change_pp(Request $request){
-          echo("test");
-        $new = $request->files->all();
-        var_dump($new);
-        var_dump($request);
-        //$file = $new->getImgUrl();
-        /*$fileName = $fileHandler->upload($file);
-        echo($filename);
+      public function change_pp(Request $request,FileHandler $fileHandler){
+        $file = $request->files->get("file");
+        //var_dump($new);
+        //var_dump($request);
+        $fileName = $fileHandler->upload($file);
+        echo($fileName);
         try {
             $file->move(
                 $this->getParameter('user_images_directory'),
@@ -76,15 +78,13 @@ class UserActionController extends AbstractController{
             );
         } catch (FileException $e) {
         }
-        $new->setImgUrl($fileName);
-        $username = $this->getUser()->getUsername();
+        //$new->setImgUrl($fileName);
+        $this->getUser()->setProfilePic($fileName);
         $em = $this->getDoctrine()->getManager();
-        $usr = $em->getRepository(User::class).findOneBy($username);
-        echo($filename);
-        $usr.setProfilePic($filename);
+        echo($fileName);
         $em->persist($usr);
-        $em->flush();*/
-        return $this->render('page/profile.html.twig');
+        $em->flush();
+        return $this->json(["name"=>$fileName],200,[],[]);
       }
 
 

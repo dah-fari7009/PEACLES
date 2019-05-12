@@ -30,17 +30,19 @@
   color: #e4dced;
 }
 .navbar .navbar-nav .dropdown-menu {
-  background-color: #C82333;
+  background-color: inherit;
   border-color: #5d509b;
 }
 .navbar .navbar-nav .dropdown-menu .dropdown-item {
   color: #ffffff;
+  background : transparent;
 }
 .navbar .navbar-nav .dropdown-menu .dropdown-item:hover,
 .navbar .navbar-nav .dropdown-menu .dropdown-item:focus,
 .navbar .navbar-nav .dropdown-menu .dropdown-item.active {
   color: #e4dced;
   background-color: #5d509b;
+  background : transparent;
 }
 .navbar .navbar-nav .dropdown-menu .dropdown-divider {
   border-top-color: #5d509b;

@@ -19,6 +19,7 @@ class HandlerListener
         $this->handler=$handler;
     }
 
+    //Avant l'insertion dans la base de données
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
@@ -26,9 +27,11 @@ class HandlerListener
         $this->uploadFile($entity);
     }
 
+    //Avant une modification
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
+
         $this->uploadFile($entity);
     }
 
@@ -47,6 +50,19 @@ class HandlerListener
             // prevents the full file path being saved on updates
             // as the path is set on the postLoad listener
             $entity->setImgUrl($file->getFilename());
+        }
+    }
+
+    public function postLoad(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+
+        if (!$entity instanceof Picture) {
+            return;
+        }
+
+        if ($fileName = $entity->getImgUrl()) {
+            $entity->setImgUrl(new File($this->handler->getTargetDirectory().'/'.$fileName));
         }
     }
 }

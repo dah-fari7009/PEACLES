@@ -57,7 +57,7 @@ $(document).ready(function(){
       $("#file1").change(function(event){
         var formData=new FormData();
         var file=$(event.target).prop('files')[0];
-      formData.append("imgUploader[file]",file,file.name);
+      formData.append("file",file,file.name);
       console.log(file);
       $.ajax({
         method:"POST",
@@ -70,6 +70,7 @@ $(document).ready(function(){
           return xhr;
         }
       }).done(function(event){
+        console.log(event.name);
         window.location.reload();
       })
     })

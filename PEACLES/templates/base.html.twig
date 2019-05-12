@@ -30,8 +30,8 @@
             <div class="row-mx">
               {% if is_granted('ROLE_USER') %}
                 <div class="dropdown">
-                    <button class="btn btn-secondary-xs dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='background:transparent;'>
-                      <img src="{#{{ app.user.profile_pic }}#}{{ asset("images/resto_icon.png") }}" style='height:5%; width: 5%; border-radius : 50%;'>
+                    <button class="btn btn-secondary-xs dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style='background:transparent; width:5em; height:5em'>
+                      <img src="{#{{ app.user.profile_pic }}#}{{ asset("images/resto_icon.png") }}" style='height:100%; width: 100%; border-radius : 50%;'>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       {% if is_granted('ROLE_RESTO') %}
