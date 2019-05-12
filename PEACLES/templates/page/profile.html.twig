@@ -1,42 +1,40 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %} {{ app.user.username }}'s profile {% endblock %}
+{% block title %} {{ user.username }}'s profile {% endblock %}
 
 {% block body %}
 
-{% if is_granted('ROLE_RESTO') %}
 
 <div class='row' style='margin-top : 5%;'>
 
   <div class='col-md-4'>
-    <p class="h1"> {{ app.user.username }}</p>
-    <img  class='img img-circle' src="{{ app.user.profilepic }}" alt="Four ow four alala" style="height : 65%; width : 65%; border: 1px solid #ddd; border-radius: 50%; margin-top: 5%; margin-bottom : 5%;">
+    <p class="h1"> {{ user.username }}</p>
+    <img  class='img img-circle' src="{{ user.profilepic }}" alt="Four ow four alala" style="height : 65%; width : 65%; border: 1px solid #ddd; border-radius: 50%; margin-top: 5%; margin-bottom : 5%;">
+    {% if is_granted('ROLE_RESTO') %}
     <div class='row'>
         <form id="imgUploader"  enctype="multipart/form-data">
           <button type="submit" class="btn btn-warning" id="upfile1">Change PP</button>
-          <input type="file" id="file1"  data-id="newpp" name="newpp" />
-      </form>
+         <input type="file" id="file1"  data-id="newpp" name="newpp" />
+        </form>
         <a href="/modify" class="btn btn-primary btn-sm">Modify the profile</a>
     </div>
+    {% else %}
+      <a href="{{ path('book',{'resto': user.id }) }}" class="btn btn-success btn-sm"> Make a reservation </a>
   </div>
+  {% endif %}
   <div class='col-md-8'>
     <br>
-    <p class="h3"> <u>Address</u> : {{ app.user.address }}</p>
+    <p class="h3"> <u>Address</u> : {{ user.address }}</p>
     <br><br>
-    <p class="h3"> <u>Phone number</u> :{{ app.user.phone }} </p>
-
-
+    <p class="h3"> <u>Phone number</u> :{{ user.phone }}</p>
   </div>
 </div>
-<p class="h3" style="margin-top : 2%; margin-left : 10%; margin-right: 10%"> {{ app.user.bio }} 
+<p class="h3" style="margin-top : 2%; margin-left : 10%; margin-right: 10%"> {% if user %}{{ user.bio }}{% else %}{{ app.user.bio }}{% endif %}
 </p>
 
-
-
-{% endif %}
-s
 {% endblock %}
+
 {% block javascripts %}
 <style>
     #imgUploader input[type="file"]{

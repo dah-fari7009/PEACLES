@@ -33,9 +33,16 @@ $("#search").on({
                     $("#search-result").append("<span class='option'>"+val.cuisine+"</span>");
                 });
                 $.each(data[1],function(index,val){
-                    console.log(val);
-                    $("#search-result").append("<a href='/profile?searched="+val.username+"' class='link'>"+val.username+"</a>");
-                });
+                    //console.log(tab);
+                    /*if(index==0) $("#search-result").append("<p> Specialties : </p>")
+                    else if(index==1) $("#search-result").append("<p>  Names : </p>")
+                    else if(index==2) $("#search-result").append("<p> Adresses : </p>")
+                    $.each(tab,function(index,val){*/
+                        console.log(val);
+                    $("#search-result").append("<p><a href='/profile?searched="+val.username+"&id="+val.id+"' class='link'>"+val.username+"</a></p>");
+               
+                    /*} )*/
+                } );
                 $("#search-result").show();
                 console.log($("#search-result").html());
                     

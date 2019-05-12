@@ -1,4 +1,4 @@
-{% extends eventcalendar.html.twig %}
+{% extends 'page/eventcalendar.html.twig' %}
 {% block title %}
     Book !
 {% endblock %}
@@ -9,6 +9,9 @@
         input[type=number]::-webkit-outer-spin-button { 
         -webkit-appearance: none; 
         margin: 0; 
+        };
+        input[type=number]{
+            background-color:transparent;
         }
     </style>
     
@@ -23,9 +26,9 @@
         <div class="col-md-3"> SELECT GUEST </div>
         <div class="offset-md-4 col-md-5"> 
             <p> 
-                <button id="minus" data-min="{{ resto.min_seats }}"> - </button>
-                <input id="people" type="number" value="{{ resto.min_seats }}">
-                <button id="plus" data-max="{{ resto.max_seats }}"> + </button>
+                <button id="minus" data-min="{{ resto.minseats }}"> - </button>
+                <input id="people" type="number" value="{{ resto.minseats }}">
+                <button id="plus" data-max="{{ resto.maxseats }}"> + </button>
             </p>
         </div>
     </div>
@@ -60,20 +63,27 @@
 
         });
 
-        $(".res").click(function(event){
-            $(event.target).attr("id","selected");
-        })
-        $("#book").click(function(event){
-            var data=$(".res #selected").serialize();
-            $(".res #selected").css({
+        $(document).on('click','.res',function(event){
+            $(".res").removeAttr("id");
+            $(".res").css({
+                "background-color":"transparent"
+            })
+            $(event.target).parent(".res").attr("id","selected");
+            $("#selected").css({
                 "background-color":"red"
             })
+        })
+        $("#book").click(function(event){
+            var data=$("#selected").serialize();
+            console.log(data);
             $.ajax({
                 method:"POST",
                 url:"/make_r",
                 data:data+"&info_text="+$("#cment").val()+"&people="+$("#people").val()
             }).done(function(data){
                 //fermer la popup
+                window.location.replace("/");
+
             })
         })
     </script>

@@ -27,16 +27,5 @@ class ResController extends AbstractController{
          $future=$this->get_future();
          return $this->render("page/history.html.twig",["past" => $past, "future" => $future ]);
      }
-
-     
-
-
-     /** 
-      * @Route("/book", name="book")
-      */
-
-      public function bookRestaurant(){
-        return $this->render("index/index.html.twig");
-      }
 }
 ?>

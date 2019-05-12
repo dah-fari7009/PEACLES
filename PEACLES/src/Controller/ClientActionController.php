@@ -11,8 +11,21 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use App\Entity\Specialty;
 use App\Entity\Restaurant;
+use App\Entity\ReservationInfos;
+use App\Entity\Reservation;
+
 
 class ClientActionController extends UserActionController{
+
+    /**
+     * @Route("/book",name="book")
+     */
+
+     public function booking(Request $request){
+       $res=$this->getDoctrine()->getManager()->getRepository(Restaurant::class)->find($request->get("resto"));
+       //$avail=$res->getAvailabilities();
+       return $this->render("page/book.html.twig",["resto"=>$res]);
+     }
 
 
     /**
@@ -22,33 +35,13 @@ class ClientActionController extends UserActionController{
      public function makeReservation(Request $request)
      {
          $client= $this->getUser();
-         $date = $request->request->get('date');
-         $start = $request->request->get('start');
-         $end = $request->request->get('end');
-         $idRes = $request->request->get('id_res');
-         $text = $request->request->get('info_text');
-         $people = $request->request->get('people');
-
-         $infos = new ReservationInfos();
-         $infos->setText($text);
-         $infos->setIdRes($idRes);
-         $infos->setPeople($people);
-
-         $res = new Reservation();
-         $res->setIdClient($client->getId());
-         $res->setIdResto($idRes);
-         $res->setStatus(0);
-         $res->setStart($start);
-         $res->setEnd($end);
-         $res->setDate($date);
-         $res->setInfos($infos);
-
-         $em = $this->getDoctrine()->getManager();
-         $em->persist($res);
-         $êm->persist($infos);
-         $em->flush();
-
-         return $this->render('page/book.html.twig');
+         $idRes = $request->request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $res = $em->getRepository(Reservation::class)->find($idRes);
+        $res->setIdClient($client);
+        $em->persist($res);
+        $em->flush();
+        return new JsonResponse(array());
 
      }
 
@@ -59,11 +52,11 @@ class ClientActionController extends UserActionController{
     {
       $idRes = $request->request.get('item.id');
       $em = $this->getDoctrine()->getManager();
-      $res = $em->getRepository(Reservation::class).findby($idRes);
-      $res.setIdClient(null);
+      $res = $em->getRepository(Reservation::class)->findOneBy($idRes);
+      $res->setIdClient(null);
       $em->persist($res);
       $em->flush();
-      return $this->render('page/book.html.twig');
+      return new JsonResponse(array());
     }
 
     /**
@@ -102,7 +95,7 @@ class ClientActionController extends UserActionController{
      $long= $request->request.get('longitude');
      $lat= $request->request.get('latitude');
      $em = $this->getDoctrine()->getManager();
-     $res = $em->getRepository(Restaurant::class).findClosestRestos($long, $lat);
+     $res = $em->getRepository(Restaurant::class)->findClosestRestos($long, $lat);
      return $this->render("page/results.html.twig",["results" => $res]);
    }
 }

@@ -28,7 +28,7 @@ function required(fields){//Checks whether every field was filled
 }
 
 function appendToTable(res){
-    $("#table_res tbody").append("<tr style=\"border-bottom:solid 1px black\"><td><form class=\"res\"><input type=\"hidden\" name=\"id\" value=\""+res.id+"\"><input type=\"text\" value=\""+res.date+"\" name=\"date\"><br><input type=\"text\" value=\""+res.start+"\" name=\"start\"><input type=\"text\" value=\""+res.end+"\" name=\"end\">"+((res.resto)?"<input type='submit' value='X' class=\"sub_res\">":"")+"</form> </td> </tr>");
+    $("#table_res tbody").append("<tr style=\"border-bottom:solid 1px black\"><td><form class=\"res\"><input type=\"hidden\" name=\"id\" value=\""+res.id+"\"><input type=\"text\" value=\""+res.date+"\" name=\"date\"disabled ><br><input type=\"text\" value=\""+res.start+"\" name=\"start\" disabled><input type=\"text\" value=\""+res.end+"\" name=\"end\" disabled>"+((res.resto)?"<input type='submit' value='X' class=\"sub_res\">":"")+"</form> </td> </tr>");
                
 }
 
@@ -37,6 +37,9 @@ $(document).ready(function(){
     $(".day").on('click',function(event){
         event.preventDefault();
         console.log("ici");
+        $(".day").css({
+            "background-color":"transparent"
+        });
         $(event.target).css({
             "background-color":"red"});
         var day=$(event.target).text();
@@ -49,9 +52,10 @@ $(document).ready(function(){
         $("#time input[type=hidden]").val(date);
         console.log($("#time input[type=hidden]").val());
         console.log(date);
+        console.log($("#current-id").text())
         $.post({
             url:"/show_avail",
-            data:"date="+date
+            data:"date="+date+"&id="+$("#current-id").text()
         }).done(function(data){
             console.log(data);
             //$(".display").empty();

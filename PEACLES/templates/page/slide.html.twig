@@ -1,7 +1,5 @@
-<div id="slide" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            {% for key,item in list %}
-                <div class="item {% if key==0 %}active {% endif %}"> 
+{% for key,item in list %}
+                <div class="carousel-item {% if key==0 %}active {% endif %}"> 
                     <div class="card">
                         <img src="" style="width:100%">
                         {% if is_granted('ROLE_CLIENT') %}
@@ -10,29 +8,18 @@
                         <h1> {{ item.idclient.username }} </h1>
                         {% endif %}
                         <p> {{ item.date|date('Y-m-d') }} : {{ item.start|date('h:m:s') }} - {{ item.end|date('h:m:s') }} </p>
-                        <p><button> Infos </button>
+                        <p><button > Infos </button>
                             {% if future %}
-                                <form action="/cancel" method="post">
+                                <form action="/cancel_r" method="post" class="canc">
                                     <input type="hidden" name="id" value="{{ item.id }}"/>
-                                    <button> Cancel </button>
+                                    <button type="submit"> Cancel </button>
                                 </form>
                             {% else %}
                                 {% if is_granted('ROLE_CLIENT') %}
-                                    <button> Make a reservation !</button>
+                                    <button href="/book?resto={{ item.idresto}}" class="make"> Make a reservation !</button>
                                 {% endif %}
                             {% endif %}
                         </p>
                     </div>
                 </div>
             {% endfor %}
-        </div>
-
-        <a class="carousel-control-prev" href="#slide" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-prev" href="#slide" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span class="sr-only">Next</span>
-            </a>
-</div>

@@ -126,6 +126,6 @@ class FormController extends AbstractController
       * @Route("/setup",name="setup")
       */
      public function setup(Request $request){
-         return $this->render('page/eventcalendar.html.twig');
+         return $this->render('page/eventcalendar.html.twig',["resto"=>null]);
      }
   }

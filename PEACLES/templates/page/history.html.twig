@@ -15,12 +15,61 @@
 
     <div class="tab-content" id="content">
         <div class="tab-pane fade show active" id="past" role="tabpanel" aria-labelledby="past-tab">
+            <div id="slide1" class="carousel slide" data-ride="carousel"></div>
+                <div class="carousel-inner">
             {{ include('page/slide.html.twig', {'future': false, 'list' : past} )}}
         </div>
+
+        <a class="carousel-control-prev" href="#slide1" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-prev" href="#slide1" data-slide="next" role="button">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+            </a>
+        </div>
+        </div>
         <div class="tab-pane fade" id="future" role="tabpanel" aria-labelledby="future-tab">
-            {{ include('page/slide.html.twig', {'future': true, 'list' : future} )}}     
+                <div id="slide2" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+            {{ include('page/slide.html.twig', {'future': true, 'list' : future} )}} 
+           <a class="carousel-control-prev" href="#slide2" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-prev" href="#slide2" data-slide="next" role="button">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+            </a>
+</div>
+    
         </div>
     </div>
 {% endblock body %}
+{% block javascripts %}
+ {{ parent() }}
+ <script>
+        $(".canc").submit(function(event){
+            event.preventDefault();
+            console.log("je suis la");
+            data=$(event.target).serialize();
+            $.ajax({
+                method:"POST",
+                url:$(event.target).attr("action"),
+                data:data
+            }).done(function(data){
+                window.location.reload();
+            })
+        })
+
+        $("#slide1").carousel({
+            interval:false
+        })
+        $("#slide2").carousel({
+            interval:false
+        })
+    </script>
+{% endblock %}
         
    

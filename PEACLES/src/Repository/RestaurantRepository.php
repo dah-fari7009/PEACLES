@@ -66,6 +66,50 @@ class RestaurantRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function searchMultipleCuisine($keys){
+        $query=$this->createQueryBuilder('r')
+            ->leftjoin('r.specialties','s')
+            ->addSelect('s');
+        $length=count($keys);
+        for($i=0;$i<$length;$i++)
+        {
+            $key=$keys[$i];
+            $query
+            ->andWhere('s.cuisine LIKE :key'.$i)
+            ->setParameter('key'.$i, '%'.$key.'%');
+        }
+        return $query->getQuery()
+            ->getResult();
+    }
+
+    public function searchMultipleUsername($keys){
+        $query=$this->createQueryBuilder('r');
+        $length=count($keys);
+        for($i=0;$i<$length;$i++)
+        {
+            $key=$keys[$i];
+            $query
+            ->andWhere('r.username LIKE :key'.$i)
+            ->setParameter('key'.$i, '%'.$key.'%');
+        }
+        return $query->getQuery()
+            ->getResult();
+    }
+
+    public function searchMultipleAddress($keys){
+        $query=$this->createQueryBuilder('r');
+        $length=count($keys);
+        for($i=0;$i<$length;$i++)
+        {
+            $key=$keys[$i];
+            $query
+            ->andWhere('r.address LIKE :key'.$i)
+            ->setParameter('key'.$i, '%'.$key.'%');
+        }
+        return $query->getQuery()
+            ->getResult();
+    }
+
     public function getProductsByType($type){
         return $this->createQueryBuilder('r')
         ->leftjoin('r.products','p')
@@ -75,6 +119,16 @@ class RestaurantRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
     }
+
+
+   /* public function searchMultiple($keys){
+        $res=[];
+        $res[0]=$this->searchMultipleCuisine($keys);
+        $res[1]=$this->searchMultipleUsername($keys);
+        $res[2]=$this->searchMultipleAddress($keys);
+        return $res;
+    }*/
+
 
     public function searchMultiple($keys)
     {
@@ -94,8 +148,6 @@ class RestaurantRepository extends ServiceEntityRepository
         }
         return $query->getQuery()
             ->getResult();
-
-
     }
 
     public function findClosestRestos($long, $lat)

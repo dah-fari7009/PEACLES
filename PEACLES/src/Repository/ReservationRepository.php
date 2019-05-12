@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\Time;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method Reservation|null find($id, $lockMode = null, $lockVersion = null)
@@ -39,9 +40,16 @@ class ReservationRepository extends ServiceEntityRepository
 
     static public function createPastReservationCriteria()
     {
+
         return Criteria::create()
-            ->where(Criteria::expr()->lte('date',new \DateTime('today')))
-            ->andWhere(Criteria::expr()->lt('end',new \DateTime('now')))
+            ->where(
+                Criteria::expr()->orX(
+                    Criteria::expr()->lt('date',new \DateTime('today')),
+                    Criteria::expr()->andX(
+                        Criteria::expr()->eq('date',new \DateTime('today')),
+                        Criteria::expr()->lt('end',new \DateTime('now'))
+                    )
+                ))
             ->andwhere(Criteria::expr()->neq('id_client',null))
             ->orderBy(["date" =>'DESC','end' => 'DESC']);
     }
@@ -49,8 +57,14 @@ class ReservationRepository extends ServiceEntityRepository
     static public function createUpcomingReservationCriteria()
     {
         return Criteria::create()
-            ->where(Criteria::expr()->gte('date',new \DateTime('today')))
-            ->andWhere(Criteria::expr()->gte('start',new \DateTime('now')))
+            ->where(
+                Criteria::expr()->orX(
+                    Criteria::expr()->gt('date',new \DateTime('today')),
+                    Criteria::expr()->andX(
+                        Criteria::expr()->eq('date',new \DateTime('today')),
+                        Criteria::expr()->gte('start',new \DateTime('now'))
+                    )
+                ))
             ->andwhere(Criteria::expr()->neq('id_client',null))
             ->orderBy(["date" =>'ASC','start' => 'ASC']);
     }
@@ -60,6 +74,27 @@ class ReservationRepository extends ServiceEntityRepository
         return Criteria::create()
             ->where(Criteria::expr()->gte('date',new \DateTime('today')))
             ->andWhere(Criteria::expr()->gte('start',new \DateTime('now')))
+            ->andwhere(Criteria::expr()->eq('id_client',null))
+            ->orderBy(["date" =>'ASC','start' => 'ASC']);
+    }
+
+    public function getAvailableOnDate($date,$id){
+        return $this->createQueryBuilder('res')
+            ->andWhere('res.id_resto = :id')
+            ->andWhere('res.id_client is NULL')
+            ->andWhere(
+                new Expr\Orx(['res.date = :date',new Expr\Andx(['res.date = :today','res.start >= :now'])])
+            )
+            ->setParameters(['id'=>$id,'date'=>$date,'today'=>new \DateTime('today'),'now'=>new \DateTime('now')])
+            ->getQuery()
+            ->getResult();
+    }
+
+    static public function createAvailOnDateCriteria($date)
+    {
+        return Criteria::create()
+        ->where(Criteria::expr()->eq('date',new \DateTime($date)))
+            ->andWhere(Criteria::expr()->gte('date',new \DateTime('today')))
             ->andwhere(Criteria::expr()->eq('id_client',null))
             ->orderBy(["date" =>'ASC','start' => 'ASC']);
     }

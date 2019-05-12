@@ -20,16 +20,19 @@ class Restaurant extends User
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(name="min_age", type="integer", options={"default" : 0})
      */
     private $min_age;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(name="min_seats", type="integer", options={"default" : 1})
      */
     private $min_seats;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(name="max_seats", type="integer", options={"default" : 40})
      */
     private $max_seats;
 
@@ -156,6 +159,13 @@ class Restaurant extends User
             ReservationRepository::createAvailabilityCriteria()
         ); 
     }
+
+    /*public function getAvailabilitiesOnDate($date)
+    {
+        return $this->getReservations()->matching(
+            ReservationRepository::createAvailOnDateCriteria()
+        );
+    }*/
 
     /**
      * @return Collection|Specialty[]
