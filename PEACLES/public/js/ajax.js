@@ -60,7 +60,7 @@ $("#search").on({
 focusout:function(){
     window.setTimeout(function(){
         $("#search-result").hide();
-    },100)  
+    },1000)  
 },
 focusin:function(){
     if($("#search").val()) $("#search-result").show();

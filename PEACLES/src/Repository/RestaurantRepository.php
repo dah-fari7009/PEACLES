@@ -6,6 +6,7 @@ use App\Entity\Restaurant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * @method Restaurant|null find($id, $lockMode = null, $lockVersion = null)
@@ -153,14 +154,26 @@ class RestaurantRepository extends ServiceEntityRepository
     public function findClosestRestos($long, $lat)
     {
         $em=$this->getEntityManager();
-        $qb="SELECT r.id,address,username,profile_pic,ST_DISTANCE_SPHERE(POINT(l.longitude,l.latitude),POINT(:long,:lat))/1000 as distance FROM restaurant r JOIN location ON location.id_resto=r.id WHERE distance <15 ORDER BY distance ASC ";
+        $qb="CREATE VIEW Matches(id,address,username,profile_pic,distance) AS (SELECT r.id,address,u.username,u.profile_pic,(ST_DISTANCE_SPHERE(POINT(longitude,latitude),POINT(:long,:lat))/1000) as distance FROM user u NATURAL JOIN restaurant r JOIN location ON location.id_resto_id=r.id);SELECT * FROM Matches WHERE distance <15 ORDER BY distance ASC ";
         $stat=$em->getConnection()->prepare($qb);
         $stat->bindValue('long',$long);
         $stat->bindValue('lat',$lat);
         $stat->execute();
-        return $stat->fetchAll();
+        return $stat->fetch();
 
     }
+
+    /*public function closestRestos($long,$lat){
+        $em=$this->getEntityManager();
+        $rsm=new ResultSetMapping();
+        $rsm->addFieldResult('')
+        $rsm->addScalarResult('distance','distance')
+        $query=$em->createNativeQuery('SELECT r.id,(ST_DISTANCE_SPHERE(POINT(longitude,latitude),POINT(?,?))/1000) as distance FROM  restaurant r JOIN location ON location.id_resto_id=r.id)',$rsm);
+        $query->setParameter(1,$long);
+        $query->setParameter(2,$lat);
+        
+        $users=$query->getResult();
+    }*/
 
     // /**
     //  * @return Restaurant[] Returns an array of Restaurant objects

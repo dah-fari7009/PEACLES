@@ -82,7 +82,7 @@ class ClientActionController extends UserActionController{
        $results=$this->getDoctrine()
             ->getRepository(Restaurant::class)
             ->searchMultiple($keys);
-    return $this->render("page/results.html.twig",["results" => $results]);
+    return $this->render("page/results.html.twig",["results" => $results,"distance"=>false,"price"=>false,"spec"=>true]);
     }
 
     /**
@@ -94,7 +94,7 @@ class ClientActionController extends UserActionController{
      $lat= $request->request->get('latitude');
      $em = $this->getDoctrine()->getManager();
      $res = $em->getRepository(Restaurant::class)->findClosestRestos($long, $lat);
-     return $this->render("page/results.html.twig",["results" => $res]);
+     return $this->render("page/results.html.twig",["results" => $res,"distance"=>true,"price"=>false,"spec"=>false]);
    }
 }
 

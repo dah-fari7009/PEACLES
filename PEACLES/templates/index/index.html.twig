@@ -16,7 +16,7 @@
           </div>
         </div>
       </form>
-      <button class="btn btn-warning btn-lg" id="geo" style="margin-top:2%">Near me</button>
+      <button class="btn btn-warning btn-lg" id="geo" style="margin-top:2%" disabled="true">Near me</button>
       <div id="search-result">
 
       </div>
@@ -24,28 +24,34 @@
 {% endblock %}
   {% block javascripts %}
     {{ parent() }}
-    <script src="https://c""dn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
     <script src="{{ asset('js/ajax.js') }}"></script>
     <script>
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(sendReq);
-        } else {
-          alert("Geolocation is not supported by this browser.");
+      $(document).ready(function(){
+
+        function sendReq(position) {
+          var lat = position.coords.latitude;
+          var long = position.coords.longitude;
+          console.log("Latitude : "+lat+"   :  "+long);
+          $.post({
+            url : "/closest",
+            longitude : long,
+            latitude : lat
+          });
         }
-      }
-
-      function sendReq(position) {
-        var lat = position.coords.latitude;
-        var long = position.coords.longitude;
+  
         
-        $.post({
-          url : "/closest",
-          longitude : long,
-          latitude : lat
-        });
-      }
-
-      $('#geo').click(getLocation());
+        $('#geo').click(function(event){
+          console.log("laaaa");
+          if (navigator.geolocation) {
+            console.log("ici");
+            navigator.geolocation.getCurrentPosition(sendReq);
+          } else {
+            alert("Geolocation is not supported by this browser.");
+          }
+        })
+  
+        
+      })
+      
     </script>
   {% endblock %}

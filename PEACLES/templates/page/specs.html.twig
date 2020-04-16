@@ -11,9 +11,10 @@ What do you think you are the best at ?
       </div>
     {% endfor %}
     </div>
-    <div class='row'>People under that age should not get in :<input type="number" name="min_age"></div>
-      <div>Not less people than : <input type="number" name="min"></div>
-      <div>Not more people than : <input type="number" name="max"></div>
+    <div class='row'>
+      <p>People under that age should not get in :<input type="number" name="min_age" required></p>
+      <div>Not less people than : <input type="number" name="min" required></div>
+      <div>Not more people than : <input type="number" name="max" required></div>
       <input type="submit" class="button btn-danger btn-xs">
     <div>
   </form>

@@ -4,14 +4,16 @@
     </div>
     <div class="col-sm-7">
         <h2> <a href="/profile?searched={{ resto.username }}&id={{ resto.id }}">{{ resto.username }}</a></p>
-        <p>{% for spec in resto.specialties %}{{ spec.cuisine}} {% endfor %}</p>
+        {% if spec %}<p>{% for spec in resto.specialties %}{{ spec.cuisine}} {% endfor %}</p>{% endif %}
         <p> {{ resto.address }} </p>
     </div>
     <div class="col-sm-3 border-left">
         {#Ici pour la note et les avis#}
+        {% if price %}
         <p> Around  {{ price }} per dish</p>
+        {% endif %}
         {% if distance %}
-            <p> {{ distance }} kms from you </p>
+            <p> {{ resto.distance }} kms from you </p>
         {% endif %}
     </div>
 </div>
